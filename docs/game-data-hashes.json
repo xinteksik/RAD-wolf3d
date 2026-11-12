@@ -1,0 +1,53 @@
+{
+  "provenance": "Maintainer reports a legally purchased GOG copy. Hashes identify these local files, not every GOG release.",
+  "files": [
+    {
+      "file": "AUDIOHED.WL6",
+      "bytes": 1156,
+      "md5": "a41af25a2f193e7d4afbcc4301b3d1ce",
+      "sha256": "16e21eab17af2062019cc85cc271f887191301d1aa6de04b1afac5998aad9d9c"
+    },
+    {
+      "file": "AUDIOT.WL6",
+      "bytes": 320209,
+      "md5": "2385b488b18f8721633e5b2bdf054853",
+      "sha256": "2cc23cb811df16e656f1fea25cd2629859c1ec9997d35bc3b1776594094b67ef"
+    },
+    {
+      "file": "GAMEMAPS.WL6",
+      "bytes": 150652,
+      "md5": "a4e73706e100dc0cadfb02d23de46481",
+      "sha256": "3df9f2ad54c601e79ab117c8175477b5d96571ba9e290cb9cd7d910abfeaae56"
+    },
+    {
+      "file": "MAPHEAD.WL6",
+      "bytes": 402,
+      "md5": "b8d2a78bc7c50da7ec9ab1d94f7975e1",
+      "sha256": "289e04f47128a5ba19f9b3f912b4048e26dc16c6fa00205ead51efb1d8e23c69"
+    },
+    {
+      "file": "VGADICT.WL6",
+      "bytes": 1024,
+      "md5": "dec8939cff5a4ec27ae7b43e8f52ec28",
+      "sha256": "114f66d40e16f19f6866a30378178b7b85f26f02f948b85e91d9dc4d07a3a63e"
+    },
+    {
+      "file": "VGAGRAPH.WL6",
+      "bytes": 275774,
+      "md5": "8b40b5b785f898e229bf1c2f2e3ee003",
+      "sha256": "26b4bd0a79c757a48c9c6bf943d82d4a6afbda341ee68eeedf532470e79a7f5b"
+    },
+    {
+      "file": "VGAHEAD.WL6",
+      "bytes": 450,
+      "md5": "8e75e3ffb842ed3d08abe6ffea97b231",
+      "sha256": "4ba3b8faedce7de2f0a9928affeaae45b3faefea6893d411f079d3ca1e8afa0b"
+    },
+    {
+      "file": "VSWAP.WL6",
+      "bytes": 1544376,
+      "md5": "b8ff4997461bafa5ef2a94c11f9de001",
+      "sha256": "175f3acb81cbc10297223e8916c1b90c5a0db0cf1d1d55732629624906aff083"
+    }
+  ]
+}

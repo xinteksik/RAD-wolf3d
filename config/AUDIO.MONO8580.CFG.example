@@ -1,0 +1,4 @@
+# Real primary 8580 test. Matching boot detection preserves RAD initialization.
+STEREO=OFF
+SID1_ADDRESS=$D400
+SID1_TYPE=8580

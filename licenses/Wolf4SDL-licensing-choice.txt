@@ -1,0 +1,13 @@
+Source: KS-Presto/Wolf4SDL README.TXT at dc8b250af35fb0ace68db5eb879490b50068c20e. Original licensing excerpt follows.
+
+Licenses:
+---------
+
+ - The original source code of Wolfenstein 3D:
+     At your choice:
+     - license-id.txt or
+     - license-gpl.txt
+ - The OPL2 emulator:
+     At your choice:
+     - license-mame.txt (fmopl.cpp)
+     - license-gpl.txt (dbopl.cpp, USE_GPL define in version.h or set GPL=1 for Makefile)

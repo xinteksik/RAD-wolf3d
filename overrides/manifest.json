@@ -1,0 +1,93 @@
+[
+  {
+    "repository": "RAD-Doom",
+    "file": "Source/rad_doom_defs.h",
+    "override": "overrides/RAD-Doom/Source/rad_doom_defs.h",
+    "base_sha256": "974eeff533bd96b4eebeaf9dba488476a51183f4bc1612babf76d45e4a4df70e",
+    "sha256": "35e3c846db448a25fdc5116b5d67eff7f36b4cae549c5888850ac1c24624efc6"
+  },
+  {
+    "repository": "RAD-Doom",
+    "file": "Source/rad_doom_hijack.cpp",
+    "override": "overrides/RAD-Doom/Source/rad_doom_hijack.cpp",
+    "base_sha256": "68cbce9ca87c5e374f734c4165cc3b658533775fb7b037bc4c41a1b0fe457f55",
+    "sha256": "a071d92ce007461a21ac3ace24b19f374ade480fa3da2839de755002bf380e74"
+  },
+  {
+    "repository": "Wolf4SDL",
+    "file": "id_ca.c",
+    "override": "overrides/Wolf4SDL/id_ca.c",
+    "base_sha256": "e201470ce34e16fcb2a99aff284d7c2d615913b207958e5c14acec89d30b49cc",
+    "sha256": "8c21630c815bff72c19622644d987c28e86e7bffabd296c9a8c81d0fd9634eb1"
+  },
+  {
+    "repository": "Wolf4SDL",
+    "file": "id_ca.h",
+    "override": "overrides/Wolf4SDL/id_ca.h",
+    "base_sha256": "3f48f96cdf34033f5bec1e9804650bc694a23ebdba410a3911db4f968ff4cfe1",
+    "sha256": "415d77de8ce39eab0bf4224390a981533c0dee8b3549bfcc19e53c38beedd159"
+  },
+  {
+    "repository": "Wolf4SDL",
+    "file": "id_in.c",
+    "override": "overrides/Wolf4SDL/id_in.c",
+    "base_sha256": "f60a0c86df01c29e557e66001aa2c469d195fb97b2c259235f56a983dd4b857b",
+    "sha256": "16cf905480e7ca2de67a04617e207056f7b79755204157a61baaa2425214503d"
+  },
+  {
+    "repository": "Wolf4SDL",
+    "file": "id_pm.c",
+    "override": "overrides/Wolf4SDL/id_pm.c",
+    "base_sha256": "0dc39eef7317529cca502893e711b1d053e5861579bfa32e4f5d5211982e0c82",
+    "sha256": "bad590cb8313c21eb84e0759160217eac340213cdeccc604357823e0f68ea8b9"
+  },
+  {
+    "repository": "Wolf4SDL",
+    "file": "id_sd.c",
+    "override": "overrides/Wolf4SDL/id_sd.c",
+    "base_sha256": "50ce93dd6b2ece7132e6268c41ab0231f75b309f44a371bca93a72efcf518333",
+    "sha256": "97ef55db894b4dda9ed816d0b79fa15395c35bb7fcc6e54c25f5d988f60157c9"
+  },
+  {
+    "repository": "Wolf4SDL",
+    "file": "id_vl.c",
+    "override": "overrides/Wolf4SDL/id_vl.c",
+    "base_sha256": "deb2081c71d1a3c77ae33e9a9c23b6b3967f80751308f72936cc210c8bb9caf5",
+    "sha256": "86dc9f3bf8e2d2f185d8529afb7be1ceb8e0d364b6710bcc1d2bc04e88cb8aed"
+  },
+  {
+    "repository": "Wolf4SDL",
+    "file": "wl_def.h",
+    "override": "overrides/Wolf4SDL/wl_def.h",
+    "base_sha256": "5c214d0aa82f25d8c5db3fb0dd87b9655e00dca322323f592ccb4f0e0cd89376",
+    "sha256": "3e019abb5349cbb9a1b96ef40b1cf836a59420d4c03085d161851a5697b84181"
+  },
+  {
+    "repository": "Wolf4SDL",
+    "file": "wl_game.c",
+    "override": "overrides/Wolf4SDL/wl_game.c",
+    "base_sha256": "90061c7965429867a875f0d8dd815d8cf4709f8276f8f1e6a9225e869e894f30",
+    "sha256": "376c72f226a87fe5eb952fa346ac2ec377e61aef332007455be17adda22d98ae"
+  },
+  {
+    "repository": "Wolf4SDL",
+    "file": "wl_main.c",
+    "override": "overrides/Wolf4SDL/wl_main.c",
+    "base_sha256": "99ad1eb8e5160beeb859be31db8fe7b2d674f976ce348b22ba0894041126be08",
+    "sha256": "729ae02b2c10883d8c0cbde153ed669550956597c8b7bfb72e34b32b7b05472e"
+  },
+  {
+    "repository": "Wolf4SDL",
+    "file": "wl_menu.c",
+    "override": "overrides/Wolf4SDL/wl_menu.c",
+    "base_sha256": "a458633c816fb27939fb62ebbf4731ef69b0881066cc1dbd7b1ca8e07a9490cf",
+    "sha256": "ac7515cc1f58076053d14521b804de234e2690afec94636f1548fa2ca083bcd4"
+  },
+  {
+    "repository": "Circle",
+    "file": "include/circle/sysconfig.h",
+    "override": "overrides/Circle/include/circle/sysconfig.h",
+    "base_sha256": "e2c891f088b644657c797cf06e6acf7a879e9cab6ea590d8dd3f486e892be5a3",
+    "sha256": "beb700402c37b4da17e921fdb8bf4c4b242bd304e65ed24ecea02f40e4d4540f"
+  }
+]

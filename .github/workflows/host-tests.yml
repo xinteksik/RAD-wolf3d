@@ -1,0 +1,10 @@
+name: Host tests
+on: [push, pull_request]
+jobs:
+  host:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 tools/prepare_sources.py --apps-only
+      - run: make test test-opl test-audio-startup
+      - run: python3 tools/audit_release.py

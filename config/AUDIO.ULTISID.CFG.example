@@ -1,0 +1,9 @@
+# Measured UltiSID sample curve, intended for Ultimate64 emulated cores.
+# Select two UltiSID cores in Ultimate64 audio settings for this comparison.
+# Use the Medium digis level used by the source calibration.
+STEREO=ON
+SID1_ADDRESS=$D400
+SID1_TYPE=ULTISID
+SID2_ADDRESS=$D500
+SID2_TYPE=ULTISID
+STEREO_WIDTH=100

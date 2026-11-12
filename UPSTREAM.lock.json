@@ -1,0 +1,34 @@
+{
+  "repositories": [
+    {
+      "name": "RAD-Doom",
+      "url": "https://github.com/frntc/RAD-Doom.git",
+      "revision": "81752f4347e8080ea76a9c49d8da0cd53dfbfa22",
+      "path": "upstream/RAD-Doom"
+    },
+    {
+      "name": "Wolf4SDL",
+      "url": "https://github.com/KS-Presto/Wolf4SDL.git",
+      "revision": "dc8b250af35fb0ace68db5eb879490b50068c20e",
+      "path": "upstream/Wolf4SDL"
+    },
+    {
+      "name": "circle-stdlib",
+      "url": "https://github.com/smuehlst/circle-stdlib.git",
+      "revision": "b5170283b55ba30552e2bdcf92e9ba528e47c44e",
+      "path": "upstream/circle-stdlib"
+    },
+    {
+      "name": "Circle",
+      "url": "https://github.com/rsta2/circle.git",
+      "revision": "75bc0890490f4c38f8cdf0eee83a2bad40942566",
+      "path": "upstream/circle-stdlib/libs/circle"
+    },
+    {
+      "name": "circle-newlib",
+      "url": "https://github.com/smuehlst/circle-newlib.git",
+      "revision": "6fe4bb7350b47e199093f5460226dec53506ccaf",
+      "path": "upstream/circle-stdlib/libs/circle-newlib"
+    }
+  ]
+}

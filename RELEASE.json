@@ -1,0 +1,11 @@
+{
+  "project": "RAD-Wolf",
+  "snapshot_date": "2026-11-12",
+  "distribution": "source-only",
+  "hardware_baseline_sha256": "4104fa8d9d6d0d58c40a37ef3700a9265efd7d1b1e063efa113f83949eb8db02",
+  "no_intro_candidate_sha256": "becc8e1eef1c39fd662f51b49efb3254e18bf2bd83abbe80463b91fbd9b73d7a",
+  "no_intro_candidate_hardware_boot": "pending",
+  "game_data_included": false,
+  "kernel_binaries_included": false,
+  "supported_audio_requires_real_sid": true
+}

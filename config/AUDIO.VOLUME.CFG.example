@@ -1,0 +1,7 @@
+# Four-bit compatibility comparison. Lower precision, no Mahoney table.
+STEREO=ON
+SID1_ADDRESS=$D400
+SID1_TYPE=VOLUME
+SID2_ADDRESS=$D500
+SID2_TYPE=VOLUME
+STEREO_WIDTH=100

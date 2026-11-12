@@ -1,0 +1,5 @@
+* text=auto eol=lf
+*.png binary
+*.zip binary
+# The inherited RAD config reader expects CRLF; preserve the supplied bytes.
+sd/RAD/rad.cfg -text

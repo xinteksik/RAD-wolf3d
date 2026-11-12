@@ -1,0 +1,33 @@
+# Changes from upstream
+
+This is the initial public source export of the working RAD-Wolf integration.
+Complete changed files are included in overrides, with their base and result
+hashes. Original copyright/license notices are retained and modifications are
+identified at each changed file's beginning.
+
+## Wolf4SDL
+
+- Bare-metal entrypoint and lightweight surface/event adapters.
+- Checked FAT-backed data reads and edition/episode handling for tested WL6.
+- ARM/newlib compatibility and a 70 Hz clock adapter.
+- IJKL controls, persistent key state and forwarding releases consumed by video.
+- Native Wolf music/effects using DOSBox DBOPL plus the local SID sample mixer.
+- Per-SID address/type configuration, real mixed-chip stereo, optional stronger
+  source positioning and an experimental UltiSID curve.
+
+## RAD-derived integration
+
+- Retains C64 bus transfer, PAL timing, RGB quantization and SID sample output.
+- Extracted a small kernel and video adapter into src; no Doom gameplay is linked.
+- Removed the RAD demo animation, loading/scroller graphics, intro WAV, external
+  soundfont and external blue-noise read. Default ordered dithering is retained.
+- Starts the C64/SID directly, remounts storage, then opens Wolf's menu.
+- Removes unused WAV decoding and font inclusion from the hardware adapter.
+- Preserves required Circle sysconfig overrides; newer stock Circle is not substituted.
+
+## Publication
+
+- Sources, full modified files, dependency lock, license inventory and text SD presets.
+- No commercial game data, generated capture, toolchain, boot firmware or kernel binaries.
+- Replaced historical smoke-test/patch/staging tools with one hash-checking source installer.
+- Data fingerprints are recorded separately from user saves and configuration.
