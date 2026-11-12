@@ -1,0 +1,7 @@
+# Optional hardware-tested mixed-SID stereo. Match your actual chip mapping.
+STEREO=ON
+SID1_ADDRESS=$D400
+SID1_TYPE=8580
+SID2_ADDRESS=$D500
+SID2_TYPE=6581
+STEREO_WIDTH=100

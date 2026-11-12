@@ -4,6 +4,10 @@
 
 The maintainer reported a working menu, game launch and two played levels
 with sound. IJKL input release and port-1 interference fixes were confirmed.
+The maintainer also confirms testing on a **real Commodore 64C** and an
+**Ultimate64 Elite2**, with physical SID audio. This platform report does not
+identify a separate kernel hash for each machine or assert that every
+configuration was exercised on both.
 Subsequent real-SID stereo was reported working with:
 
 ```ini
@@ -28,9 +32,14 @@ This source export removes the RAD intro and all external Doom demo/media
 dependencies. Kernel and video code are separated from Doom gameplay, with
 the inherited bus transfer and default ordered color conversion retained.
 Source installation and portable host suites are checked in a fresh isolated
-application checkout. Firmware is cross-compiled/linked against the established
-Circle44.3/Newlib libraries. A full fresh rebuild of those libraries is not
-claimed as part of this packaging validation.
+application checkout. The initial packaging build used established libraries.
+A subsequent independent Ubuntu clone of GitHub revision
+`e35f5f4da2ef14baa30b8c438595251aff89d7e8` rebuilt Circle44.3 and Newlib from
+their pinned sources, passed all host suites and linked without source edits.
+Only the documented compiler and installed host tools were reused.
+The result is 762,728 bytes, SHA-256
+`6a4209f30b62ca18a8209c332e9ba3969a40374140cc230cb3077594c1ad4ba9`.
+These default-preset/documentation updates do not change firmware source code.
 
 The no-intro kernel is a new hardware candidate. A successful compile or a
 working earlier intro build is not proof of its boot behavior. After deployment,

@@ -7,5 +7,14 @@
   "no_intro_candidate_hardware_boot": "pending",
   "game_data_included": false,
   "kernel_binaries_included": false,
-  "supported_audio_requires_real_sid": true
+  "supported_audio_requires_real_sid": true,
+  "reported_hardware_test_platforms": [
+    "Commodore 64C",
+    "Ultimate64 Elite2 with physical SIDs"
+  ],
+  "default_audio": {
+    "stereo": false,
+    "sid1_type": "AUTO",
+    "sid2_type": "AUTO"
+  }
 }

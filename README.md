@@ -25,7 +25,8 @@ licensed as RAD-Wolf source code. See [image notices](docs/images/README.md).
 ## Status
 
 Menu, first-level entry, keyboard controls, music and effects have been tested
-on hardware. Real mixed-SID stereo was reported working with an 8580 at
+on a **real Commodore 64C** and an **Ultimate64 Elite2**. Supported audio uses
+physical SID chips. Real mixed-SID stereo was reported working with an 8580 at
 `$D400` (left) and a 6581 at `$D500` (right). See [test status](docs/STATUS.md)
 for the distinction between that hardware baseline and this cleaned build.
 The RAD demo animation has been removed: startup goes directly to Wolf.
@@ -80,6 +81,9 @@ clean, eject or write to an SD card automatically.
 The physical joystick is not polled by this firmware. Port-1 mouse/joystick
 digital lines are filtered from keyboard scanning. See [Audio](docs/AUDIO.md)
 for mono, stereo and per-SID address/type configuration.
+
+The supplied default audio configuration is **mono with automatic SID1
+detection** (`STEREO=OFF`, `SID1_TYPE=AUTO`). SID2 is unused in mono mode.
 
 ## Source layout and credits
 

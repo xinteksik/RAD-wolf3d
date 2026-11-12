@@ -2,7 +2,8 @@
 
 Hardware-confirmed real-chip configuration: stereo ON, SID1 `$D400`/8580,
 SID2 `$D500`/6581, width 100. That development snapshot is recorded in
-STATUS.md; compiled snapshots are not part of this source folder. Keep these types explicit:
+STATUS.md; compiled snapshots are not part of this source folder. For this optional
+mixed-SID stereo preset, keep the types explicit:
 the captured boot detection reported 6581 for the primary while the confirmed
 configuration requests 8580. This confirmation does not cover UltiSID audio.
 
@@ -14,13 +15,18 @@ left and right inputs of your audio equipment.
 Copy `config/AUDIO.CFG.example` to `RADWOLF/AUDIO.CFG` on the card:
 
 ```ini
-STEREO=ON
+STEREO=OFF
 SID1_ADDRESS=$D400
-SID1_TYPE=8580
+SID1_TYPE=AUTO
 SID2_ADDRESS=$D500
-SID2_TYPE=6581
+SID2_TYPE=AUTO
 STEREO_WIDTH=100
 ```
+
+This is the default: mono through SID1 with automatic detection. SID2 is not
+initialized or used for sample output in mono mode. For the tested 8580/6581
+stereo setup, use `config/AUDIO.STEREO.REAL-SID.CFG.example` instead and match
+its addresses/types to your actual hardware.
 
 Reboot after changing the file. `STEREO=OFF`, a missing file, or invalid
 configuration selects mono on SID1 (default `$D400`, AUTO). Stereo is enabled only if the

@@ -10,7 +10,9 @@ testovaných souborů jsou v GAME_DATA.md a game-data-hashes.json.
 
 Začni hlavním README, potom BUILD.md a SD_CARD.md. Publikovaná verze nemá
 úvodní RAD animaci ani závislost na Doom datech, soundfontu či grafice intra.
-Mono používá SID1; stereo SID1 vlevo a SID2 vpravo. Nastavení je v AUDIO.CFG.
+Výchozí nastavení je mono s automatickou detekcí SID1. Stereo používá SID1
+vlevo a SID2 vpravo; nastavuje se v AUDIO.CFG. Projekt byl podle potvrzení
+správce otestován na reálném Commodore 64C i Ultimate64 Elite2.
 
 Složka obsahuje nové adaptéry, celé upravené soubory původních projektů,
 odkazy a přesné revize upstreamů, licence a nástroje pro sestavení. Neobsahuje

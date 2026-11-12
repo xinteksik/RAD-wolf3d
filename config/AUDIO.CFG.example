@@ -1,7 +1,7 @@
-# RAD-Wolf optional stereo. Missing file defaults to mono.
-STEREO=ON
+# Default: mono through SID1 with automatic detection.
+STEREO=OFF
 SID1_ADDRESS=$D400
-SID1_TYPE=8580
+SID1_TYPE=AUTO
 SID2_ADDRESS=$D500
-SID2_TYPE=6581
+SID2_TYPE=AUTO
 STEREO_WIDTH=100

@@ -36,7 +36,8 @@ The original downloaded release archive's reference SHA-256 is
 
 Text templates are in `sd/`. They retain the tested settings but remove
 references to Doom kernels. Kernel selection is `kernel=kernel_wolf.img`.
-Use the audio preset appropriate to your actual chip mapping.
+The supplied AUDIO.CFG defaults to mono and automatic SID1 detection. Use an
+optional stereo preset only after matching its addresses and types to your hardware.
 
 **A real SID is required for supported audio. Ultimate/UltiSID playback is
 experimental and may sound poor or distorted.** Mono uses SID1 only. Stereo
