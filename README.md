@@ -102,6 +102,10 @@ and [circle-stdlib](https://github.com/smuehlst/circle-stdlib) provide the bare-
 runtime. OPL synthesis uses the GPL DOSBox DBOPL core. Full [credits, references
 and license boundaries](NOTICE.md) are included.
 
+Development was assisted by **OpenAI Codex**, including implementation,
+debugging, build verification, host tests, documentation and release preparation.
+Hardware testing and gameplay validation were performed by the project maintainer.
+
 ## License
 
 RAD-Wolf glue is GPL-3.0-or-later; retained upstream components keep their
