@@ -5,6 +5,8 @@ all: test
 SOURCES = src/radwolf_frame.c src/radwolf_input.c src/radwolf_rad_input.c src/radwolf_platform.c src/radwolf_video.c src/radwolf_file.c src/radwolf_stdio_file.c tests/test_bridge.c
 SOURCES += tests/test_file.c
 SOURCES += src/radwolf_map.c tests/test_map.c
+SOURCES += tests/test_gray.c
+SOURCES += src/radwolf_surface.c tests/test_surface.c
 build/test_bridge: $(SOURCES) $(wildcard src/*.h)
 	mkdir -p build
 	$(CC) $(CFLAGS) $(INCLUDES) $(SOURCES) -o $@

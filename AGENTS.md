@@ -34,7 +34,7 @@ UltiSID remains experimental.
 
 Use focused imperative commits and describe test commands, chip mapping and
 firmware hash in PRs. Never publish runtime game data, saves, raw captures,
-toolchains or binaries without their required source/license package. The two
+toolchains or binaries without their required source/license package. The four
 documented README screenshots are an explicit maintainer-supplied exception;
 retain their separate image notices.
 Run `python3 tools/audit_release.py` before preparing a publication archive.

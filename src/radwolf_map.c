@@ -17,15 +17,17 @@ int radwolf_map_draw(const uint16_t *tiles, unsigned stride, unsigned width,
     }
     if (player_x >= 0 && player_y >= 0 && (unsigned)player_x < width && (unsigned)player_y < height) {
         int x = origin_x + player_x * 2, y = origin_y + player_y * 2;
-        box(user, x, y, 2, 2, 15);
+        /* A four-tile marker with a dark halo stands out from gray walls
+         * and yellow doors. It can extend beyond the map at its edges;
+         * the centered 64x64 maximum still leaves ample screen margin. */
+        box(user, x - 5, y - 5, 12, 12, 0);
+        box(user, x - 3, y - 3, 8, 8, RADWOLF_MAP_PLAYER_COLOR);
         static const int dx[8] = {1,1,0,-1,-1,-1,0,1};
         static const int dy[8] = {0,-1,-1,-1,0,1,1,1};
         angle = ((angle % 360) + 360) % 360;
         unsigned direction = (unsigned)((angle + 22) / 45) & 7;
         int tip_x = x + dx[direction] * 3, tip_y = y + dy[direction] * 3;
-        if (tip_x >= origin_x && tip_x < origin_x + (int)width * 2 &&
-            tip_y >= origin_y && tip_y < origin_y + (int)height * 2)
-            box(user, tip_x, tip_y, 1, 1, 11);
+        box(user, tip_x, tip_y, 2, 2, RADWOLF_MAP_DIRECTION_COLOR);
     }
     return 0;
 }

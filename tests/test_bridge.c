@@ -65,11 +65,15 @@ static void fake_log(void *user, const char *message)
 
 void test_files(void);
 void test_map(void);
+void test_gray(void);
+void test_surface(void);
 
 int main(void)
 {
     test_files();
     test_map();
+    test_gray();
+    test_surface();
     static uint8_t src[RADWOLF_HEIGHT][RADWOLF_WIDTH + 5];
     static uint32_t dst[RADWOLF_HEIGHT][RADWOLF_WIDTH + 3];
     static radwolf_rgb pal[RADWOLF_PALETTE_SIZE];

@@ -27,7 +27,7 @@ CPPFLAGS += $(CFLAGS) -include $(CIRCLEHOME)/include/assert.h
 $(shell mkdir -p wolf)
 radwolf_kernel.o: $(RW)/radwolf_kernel.cpp
 	$(CPP) $(CPPFLAGS) -c -o $@ $<
-radwolf_rad_video.o: $(RW)/radwolf_rad_video.c
+radwolf_rad_video.o: $(RW)/radwolf_rad_video.c $(RW)/radwolf_gray.h $(RW)/radwolf_flat.h
 	$(CC) $(CFLAGS) -std=gnu99 -c -o $@ $<
 $(RAD_OBJS): %.o: $(RAD)/%.cpp
 	$(CPP) $(CPPFLAGS) -c -o $@ $<

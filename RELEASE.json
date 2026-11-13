@@ -17,12 +17,14 @@
     "sid1_type": "AUTO",
     "sid2_type": "AUTO"
   },
-  "version": "0.3.1-rc1",
+  "version": "0.3.2-rc1",
   "prerelease": true,
   "midi_music_tracks": 27,
   "windows_midi_preparation": true,
   "f1_level_map": true,
   "latest_candidate_hardware_test": "pending",
-  "latest_candidate_sha256": "cf3e9fafce5d7053fdd3be51b25ef499cc878c415acf242c7d9f11d09c2d8104",
-  "latest_candidate_bytes": 793168
+  "latest_candidate_sha256": "0618e055cfb2ca319c924a3bdceab7717857a1026bcb8573123303df248ff72e",
+  "latest_candidate_bytes": 795216,
+  "solid_floor_ceiling_only": true,
+  "map_player_marker": "red square with internal eight-direction white indicator"
 }

@@ -37,6 +37,8 @@
 #include <string.h>
 #include <math.h>
 #include <arm_neon.h>
+#include "radwolf_gray.h"
+#include "radwolf_flat.h"
 #define RADWOLF_VIDEO_WIDTH 320
 #define RADWOLF_VIDEO_HEIGHT 200
 #define min(a,b) ((a) < (b) ? (a) : (b))
@@ -63,12 +65,7 @@ static int16_t brightnessScale = 20;
 
 uint8_t mapRGB2C64[ RGB_LEVELS * RGB_LEVELS * RGB_LEVELS ];
 
-int c64PalettePepto[ 16 ][ 3 ] = {
-		{0x00, 0x00, 0x00}, {0xFF, 0xFF, 0xFF}, {0x68, 0x37, 0x2B}, {0x70, 0xA4, 0xB2},
-		{0x6F, 0x3D, 0x86}, {0x58, 0x8D, 0x43}, {0x35, 0x28, 0x79}, {0xB8, 0xC7, 0x6F},
-		{0x6F, 0x4F, 0x25}, {0x43, 0x39, 0x00}, {0x9A, 0x67, 0x59}, {0x44, 0x44, 0x44},
-		{0x6C, 0x6C, 0x6C}, {0x9A, 0xD2, 0x84}, {0x6C, 0x5E, 0xB5}, {0x95, 0x95, 0x95},
-};
+#define c64PalettePepto radwolf_c64_palette
 
 const uint8_t ditherMatrix4x4[ 4 * 4 ] = {
 	0, 12, 3, 15,
@@ -335,9 +332,14 @@ void doImageConversion()
 					uint16x8_t rgba_2_16 = vmovl_u8( rgba_2 );
 
 					int c64color;
-					if ( rgba_2[ 3 ] ) // most-significant byte of first pixel: if set => stores c64 palette index
+					int solid_color = radwolf_flat_pair(
+						DG_ScreenBuffer[(x + a) + (y + c) * RADWOLF_VIDEO_WIDTH],
+						DG_ScreenBuffer[(x + a + 1) + (y + c) * RADWOLF_VIDEO_WIDTH]);
+					if (solid_color >= 0)
 					{
-						c64color = rgba_2[ 3 ];
+						/* Only explicitly tagged surfaces bypass texture dithering.
+						 * Matching tags on BOTH pixels protect object boundaries. */
+						c64color = solid_color;
 					} else
 					{
 						int16x4_t t1 = vget_low_s16 ( *(int16x8_t*)&rgba_2_16 );

@@ -26,8 +26,8 @@ experimental and may sound distorted or otherwise incorrect.**
 
 ![Full-level map with a highlighted player marker on RAD-Wolf](docs/images/wolf-map.png)
 
-Captures from a real Ultimate64, supplied by the project maintainer. The game artwork remains the
-property of its respective rights holders; these illustrations are not
+Captures from a real Ultimate64, supplied by the project maintainer. The game
+artwork remains the property of its respective rights holders; these illustrations are not
 licensed as RAD-Wolf source code. See [image notices](docs/images/README.md).
 
 ## Status

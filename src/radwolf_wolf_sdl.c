@@ -4,6 +4,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "radwolf_surface.h"
+#include "radwolf_flat.h"
+#include "radwolf_map.h"
 
 struct SDL_Window { int unused; };
 struct SDL_Renderer { int unused; };
@@ -181,12 +184,24 @@ int radwolf_wolf_blit_surface(SDL_Surface *src, const SDL_Rect *src_rect,
     if (w > dst->w - dx) w = dst->w - dx;
     if (h > dst->h - dy) h = dst->h - dy;
     if (sx < 0 || sy < 0 || dx < 0 || dy < 0 || w < 0 || h < 0) return -1;
+    uint32_t rgb_lut[256], solid_lut[256];
+    for (int i = 0; i < src->format->palette->ncolors && i < 256; ++i) {
+        SDL_Color c = src->format->palette->colors[i];
+        uint32_t rgb = ((uint32_t)c.r << 16) | ((uint32_t)c.g << 8) | c.b;
+        rgb_lut[i] = rgb;
+        solid_lut[i] = radwolf_flat_tag(rgb);
+    }
     for (int y = 0; y < h; ++y) {
         const uint8_t *in = (const uint8_t *)src->pixels + (sy + y) * src->pitch + sx;
         uint32_t *out = (uint32_t *)((uint8_t *)dst->pixels + (dy + y) * dst->pitch) + dx;
         for (int x = 0; x < w; ++x) {
-            SDL_Color c = src->format->palette->colors[in[x]];
-            out[x] = ((uint32_t)c.r << 16) | ((uint32_t)c.g << 8) | c.b;
+            out[x] = rgb_lut[in[x]];
+            if (radwolf_map_colors) {
+                out[x] = in[x] == RADWOLF_MAP_PLAYER_COLOR ? UINT32_C(0x8aff5555) :
+                         in[x] == RADWOLF_MAP_DIRECTION_COLOR ? UINT32_C(0x81ffffff) :
+                         solid_lut[in[x]];
+            } else if (radwolf_surface_background(in + x))
+                out[x] = solid_lut[in[x]];
         }
     }
     return 0;
@@ -221,7 +236,7 @@ void radwolf_wolf_render_present(SDL_Renderer *renderer)
     const uint32_t *pixels = (const uint32_t *)active_texture->pixels;
     for (size_t i = 0; i < 320u * 200u; ++i) {
         uint32_t c = pixels[i];
-        DG_ScreenBuffer[i] = c & 0x00ffffffu;
+        DG_ScreenBuffer[i] = c;
     }
     (*functionAddress[1])();
     radwolf_audio_pump();

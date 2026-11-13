@@ -17,6 +17,12 @@ conversion, repeat reuse, damaged-output regeneration with backup, Unicode/
 space/ampersand paths, external-folder arguments, missing/corrupt inputs and
 converter failure. All 27 outputs matched the existing Linux conversion hashes.
 
+For `v0.3.1-rc1`, the maintainer subsequently copied the release to an actual
+SD card, supplied their WL6 files and SF2 bank, and ran Prepare-MIDI.bat directly
+from that card in Windows. This real-card preparation workflow was reported
+successful on 2026-11-13. The report did not specifically identify new-kernel
+boot or F1 map entry/exit; those remain separate hardware checks.
+
 The sections below retain historical bring-up and publication results.
 
 ## Hardware baseline

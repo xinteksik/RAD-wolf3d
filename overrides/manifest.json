@@ -96,5 +96,19 @@
     "override": "overrides/Wolf4SDL/wl_play.c",
     "base_sha256": "ae26632df767b49330485e8712f157bbbcd6848dddc6b9ee0f1342260ad17896",
     "sha256": "ed6bdba49df1536cdc88795e94719590553e13facff0e63523fdc1892b3de801"
+  },
+  {
+    "repository": "Wolf4SDL",
+    "file": "wl_draw.c",
+    "override": "overrides/Wolf4SDL/wl_draw.c",
+    "base_sha256": "00df56f57a8d5107664dcb3e98baeaaaa2fa684c10741086f7036d3b49c529dc",
+    "sha256": "79e323a0ab478e4a5797ae8e3514bcfe8acda158fec1892c2bf3cb7635af5635"
+  },
+  {
+    "repository": "Wolf4SDL",
+    "file": "wl_scale.c",
+    "override": "overrides/Wolf4SDL/wl_scale.c",
+    "base_sha256": "85fbd7e964e8836c862693cfb2895b05b44a90982699bf99d1d2843fb0284725",
+    "sha256": "dc5bbf5c13ca82775e59876d484de905adce379f26c4c73c3509112b630dbe45"
   }
 ]

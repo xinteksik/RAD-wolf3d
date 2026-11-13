@@ -1,6 +1,7 @@
 /* GPL-3.0-or-later. Pause the game loop while keeping cooperative audio alive. */
 #include "../upstream/Wolf4SDL/wl_def.h"
 #include "radwolf_map.h"
+#include "radwolf_surface.h"
 static uint16_t map_tiles[64 * 64];
 static void map_box(void *user, int x, int y, int width, int height, unsigned color)
 {
@@ -21,10 +22,12 @@ void radwolf_wolf_show_map(void)
     WindowX = 0; WindowW = 320; PrintY = 10;
     US_CPrint("LEVEL MAP");
     PrintY = 184;
-    US_CPrint("F1 / BACK: CLOSE");
+    US_CPrint("RED: YOU   F1 / BACK: CLOSE");
     radwolf_map_draw(map_tiles, 64, mapwidth, mapheight, BIT_DOOR,
                      player->tilex, player->tiley, player->angle, map_box, NULL);
+    radwolf_map_colors = 1;
     VW_UpdateScreen();
+    radwolf_map_colors = 0;
     /* Do not treat the opening F1 press as a close request. */
     while (Keyboard[sc_F1]) { IN_ProcessEvents(); SDL_Delay(10); }
     do { IN_ProcessEvents(); SDL_Delay(10); }
