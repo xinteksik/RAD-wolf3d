@@ -2,6 +2,7 @@
 #include "wl_def.h"
 #include "baremetal/SDL_mixer.h"
 #include "radwolf_audio_config.h"
+#include "radwolf_midi.h"
 uint64_t soundFirstuSecTick;
 uint8_t soundRingBuffer[16384];
 static uint8_t lookup[256];
@@ -31,15 +32,21 @@ static byte empty_page[4];
 byte *PM_GetPage(int page) { (void)page; return empty_page; }
 byte *PM_GetPageEnd(void) { return empty_page + sizeof(empty_page); }
 uint32_t PM_GetPageSize(int page) { (void)page; return 0; }
-int32_t CA_CacheAudioChunk(int chunk) { (void)chunk; abort(); }
+int32_t CA_CacheAudioChunk(int chunk)
+{
+    static word music[] = {4, 0x0120, 1};
+    audiosegs[chunk] = (byte *)music;
+    return sizeof(music);
+}
 void *safe_malloc(size_t bytes, const char *file, uint32_t line)
 { (void)file; (void)line; void *p = malloc(bytes ? bytes : 1); assert(p); return p; }
 void Quit(const char *format, ...)
 { fprintf(stderr, "Unexpected Quit: %s\n", format); abort(); }
 void Error(const char *message)
 { fprintf(stderr, "Unexpected Error: %s\n", message); abort(); }
-int main(void)
+int main(int argc, char **argv)
 {
+    (void)argv;
     for (unsigned i = 0; i < 256; ++i) lookup[i] = i;
     SD_Startup();
     assert(AdLibPresent && SoundBlasterPresent);
@@ -69,6 +76,18 @@ int main(void)
     assert(soundFirstuSecTick == 1000000);
     assert(soundRingBuffer[0] == 192 && radwolf_right_ring[0] == 128);
     radwolf_audio_pump();
+    SD_StartMusic(STARTMUSIC + WONDERIN_MUS);
+    assert(SD_MusicPlaying());
+    assert(radwolf_midi_active() == (argc > 1));
+    SD_MusicOff();
+    assert(!SD_MusicPlaying() && !radwolf_midi_active());
+    SD_StartMusic(STARTMUSIC + WONDERIN_MUS);
+    assert(radwolf_midi_active() == (argc > 1));
+    SD_StartMusic(STARTMUSIC + CORNER_MUS);
+    assert(SD_MusicPlaying());
+    assert(radwolf_midi_active() == (argc > 1));
+    SD_ContinueMusic(STARTMUSIC + CORNER_MUS, 0);
+    assert(radwolf_midi_active() == (argc > 1));
     SD_Shutdown();
     puts("Wolf audio startup integration passed");
     return 0;

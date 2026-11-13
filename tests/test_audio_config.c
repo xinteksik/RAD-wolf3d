@@ -6,6 +6,12 @@ int main(void)
 {
     radwolf_audio_config config;
     assert(radwolf_audio_config_parse(&config, NULL) == 0 && !config.stereo);
+    assert(config.music_width == 70);
+    assert(radwolf_audio_config_parse(&config, "MIDI_STEREO_WIDTH=0") == 0);
+    assert(config.music_width == 0);
+    assert(radwolf_audio_config_parse(&config,
+        "MIDI_STEREO_WIDTH=85\nSTEREO_WIDTH=20") == 0);
+    assert(config.music_width == 85 && config.width == 20);
     assert(radwolf_audio_config_parse(&config,
         "# stereo board\r\nSTEREO = ON\r\nSID2_ADDRESS = $D500\nSID2_TYPE=AUTO\n") == 0);
     assert(config.stereo && config.address == 0xd500 && config.model == 0);
@@ -24,7 +30,8 @@ int main(void)
         "STEREO=ON\nSID2_ADDRESS=D501", "STEREO=ON\nSID2_ADDRESS=-D500",
         "STEREO=ON\nSID2_ADDRESS=D500oops", "STEREO=ON\nSID2_TYPE=bogus",
         "STEREO=yes", "STEREO=ON\nTYPO=1", "STEREO_WIDTH=101",
-        "SID1_ADDRESS=DC00", "STEREO=ON\nSID1_ADDRESS=D500\nSID2_ADDRESS=D500"
+        "SID1_ADDRESS=DC00", "STEREO=ON\nSID1_ADDRESS=D500\nSID2_ADDRESS=D500",
+        "MIDI_STEREO_WIDTH=101", "MIDI_STEREO_WIDTH=-1", "MIDI_STEREO_WIDTH=abc"
     };
     for (unsigned i = 0; i < sizeof(invalid)/sizeof(invalid[0]); ++i) {
         assert(radwolf_audio_config_parse(&config, invalid[i]) == -1);

@@ -49,6 +49,22 @@ Different retail/GOG revisions may differ; no game files are downloaded by our t
 
 ## Build and install
 
+### Windows MIDI preparation kit
+
+The MIDI test release includes `Prepare-MIDI.bat`, its readable PowerShell
+script, and a standalone converter in `RADWOLF/` on the SD card. Copy your WL6
+files into that folder and double-click the BAT on Windows. It creates all
+27 tracks in `MIDI/`; no Python, compiler or Internet connection is required.
+It can run directly from an SD card inserted into Windows. The game uses
+these tracks when `RADWOLF/soundfont.sf2` is present; without the font it uses
+original OPL music. See [Windows kit instructions](docs/WINDOWS-MIDI.md).
+
+The source repository contains the launcher/build source only. Compiled host
+tools and firmware belong in the separate release package, with source and
+notices. No WL6 data, generated MIDI or SoundFont is included in either ZIP.
+
+### Firmware source build
+
 Use Linux/WSL and a build path without spaces. Install Git, Python 3, Make,
 a host C/C++ compiler and the pinned Arm AArch64 cross compiler described in
 [Build instructions](docs/BUILD.md).
@@ -77,6 +93,7 @@ clean, eject or write to an SD card automatically.
 | Return | Confirm |
 | C64 left-arrow key | Escape / back |
 | 1–4 | Select weapon |
+| F1 | Full level map; F1 or left-arrow closes it |
 
 The physical joystick is not polled by this firmware. Port-1 mouse/joystick
 digital lines are filtered from keyboard scanning. See [Audio](docs/AUDIO.md)
@@ -91,6 +108,8 @@ detection** (`STEREO=OFF`, `SID1_TYPE=AUTO`). SID2 is unused in mono mode.
 - `overrides/`: complete modified upstream files, with hashes and original notices.
 - `tools/`, `firmware/`, `tests/`: source preparation, portable build and host checks.
 - `sd/`: text-only SD configuration templates; no firmware or game assets.
+- `windows-midi/`: English Windows launcher and instructions; converter build
+  and source delivery are handled by `tools/build_windows_midi.py`.
 - `licenses/`, `third_party/`: license texts and third-party notices.
 
 See [Architecture](docs/ARCHITECTURE.md) for the runtime data paths.

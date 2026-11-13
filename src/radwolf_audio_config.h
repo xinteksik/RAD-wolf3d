@@ -12,6 +12,7 @@ typedef struct {
     unsigned width; /* 0=original Wolf tables, 100=full lateral separation */
     unsigned primary_address;
     unsigned primary_model;
+    unsigned music_width; /* 0=original MIDI/SF2 panning, 100=full automatic spread */
 } radwolf_audio_config;
 int radwolf_audio_config_parse(radwolf_audio_config *config, const char *text);
 extern unsigned radwolf_sid2_address; /* volume register, zero disables output */

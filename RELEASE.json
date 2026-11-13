@@ -1,6 +1,6 @@
 {
   "project": "RAD-Wolf",
-  "snapshot_date": "2026-11-12",
+  "snapshot_date": "2026-11-13",
   "distribution": "source-only",
   "hardware_baseline_sha256": "4104fa8d9d6d0d58c40a37ef3700a9265efd7d1b1e063efa113f83949eb8db02",
   "no_intro_candidate_sha256": "becc8e1eef1c39fd662f51b49efb3254e18bf2bd83abbe80463b91fbd9b73d7a",
@@ -16,5 +16,13 @@
     "stereo": false,
     "sid1_type": "AUTO",
     "sid2_type": "AUTO"
-  }
+  },
+  "version": "0.3.1-rc1",
+  "prerelease": true,
+  "midi_music_tracks": 27,
+  "windows_midi_preparation": true,
+  "f1_level_map": true,
+  "latest_candidate_hardware_test": "pending",
+  "latest_candidate_sha256": "cf3e9fafce5d7053fdd3be51b25ef499cc878c415acf242c7d9f11d09c2d8104",
+  "latest_candidate_bytes": 793168
 }

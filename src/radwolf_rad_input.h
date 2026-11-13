@@ -12,7 +12,7 @@ enum radwolf_rad_key {
     RW_RAD_SHIFT_L = 1, RW_RAD_COMMODORE = 4, RW_RAD_SHIFT_R = 6,
     RW_RAD_RETURN = 13, RW_RAD_DOWN = 17, RW_RAD_SPACE = 32,
     RW_RAD_ESCAPE = 95, RW_RAD_UP = 145, RW_RAD_LEFT = 157,
-    RW_RAD_RIGHT = 29
+    RW_RAD_RIGHT = 29, RW_RAD_F1 = 133
 };
 
 typedef struct radwolf_rad_input {

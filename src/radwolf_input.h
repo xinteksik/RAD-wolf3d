@@ -22,7 +22,8 @@ enum radwolf_action {
     RW_WEAPON_1 = 1u << 11,
     RW_WEAPON_2 = 1u << 12,
     RW_WEAPON_3 = 1u << 13,
-    RW_WEAPON_4 = 1u << 14
+    RW_WEAPON_4 = 1u << 14,
+    RW_MAP = 1u << 15
 };
 
 typedef struct radwolf_input_state {
@@ -41,7 +42,7 @@ enum radwolf_key {
     RW_KEY_UP, RW_KEY_DOWN, RW_KEY_LEFT, RW_KEY_RIGHT,
     RW_KEY_FIRE, RW_KEY_USE, RW_KEY_RUN, RW_KEY_STRAFE,
     RW_KEY_ESCAPE, RW_KEY_CONFIRM, RW_KEY_1, RW_KEY_2, RW_KEY_3, RW_KEY_4,
-    RW_KEY_COUNT
+    RW_KEY_MAP, RW_KEY_COUNT
 };
 typedef void (*radwolf_key_event_fn)(void *user, enum radwolf_key key, int down);
 

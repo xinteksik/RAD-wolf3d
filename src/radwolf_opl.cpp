@@ -4,6 +4,7 @@
 #include "../upstream/Wolf4SDL/dosbox/dbopl.h"
 #pragma pack(pop)
 extern "C" void radwolf_boot_trace(const char *);
+#include "radwolf_midi.h"
 static DBOPL::Chip chip;
 extern "C" int YM3812Init(int count, int clock, int rate)
 {
@@ -33,6 +34,7 @@ extern "C" void YM3812UpdateOne(int which, int16_t *samples, int count)
             *samples++ = value;
             *samples++ = value;
         }
+        radwolf_midi_mix(samples - n * 2, (unsigned)n);
         count -= n;
     }
 }

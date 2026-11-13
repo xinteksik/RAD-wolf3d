@@ -1496,7 +1496,11 @@ static void DemoLoop()
         #endif
     #endif
 
-    StartCPMusic(INTROSONG);
+#ifdef RADWOLF_BAREMETAL
+    /* Direct-to-menu startup must not play a snippet of title music. */
+    if (!param_nowait)
+#endif
+        StartCPMusic(INTROSONG);
 
 #ifndef JAPAN
     if (!param_nowait)

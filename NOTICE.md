@@ -17,6 +17,15 @@ the source; this list does not replace them.
   integration. [circle-stdlib](https://github.com/smuehlst/circle-stdlib),
   [circle-newlib](https://github.com/smuehlst/circle-newlib).
 - **DOSBox Team** — GPL DBOPL OPL synthesis, via Wolf4SDL's `dosbox/` sources.
+- **Bernhard Schelling / Steve Folta** — TinySoundFont (MIT) and
+  TinyMidiLoader (zlib); full notices retained in `third_party/tsf.h` and
+  `third_party/tml.h`. Vendored from revision
+  `853a0a171759f1ddba0de1442133a75912bbeffa` of
+  [TinySoundFont](https://github.com/schellingb/TinySoundFont).
+- **ericvids** — [wolfmidi](https://github.com/ericvids/wolfmidi), used as a
+  separate offline conversion tool at revision
+  `2cf4c684d45de2a5f0d1b34fd6b9e64beb0c8e79` (GPL-2.0-only).
+  Its converter and instrument mappings are not linked into the firmware.
 - **Pex “Mahoney” Tufvesson** — sample playback technique and real-chip lookup
   tables as attributed by RAD-Doom's `mahoney_lut.h`.
 - **Kelly Fox / c64cast** — measured UltiSID conversion data, MIT licensed;

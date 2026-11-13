@@ -1,6 +1,7 @@
 /* GPL-3.0-or-later. Cooperative Wolf mixer feeding the RAD SID sample ring. */
 #include "baremetal/SDL_mixer.h"
 #include "radwolf_audio_config.h"
+#include "radwolf_midi.h"
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
@@ -85,6 +86,7 @@ void radwolf_audio_pump(void)
                      config.address, config.model, radwolf_sid2_model, config.width);
             radwolf_boot_trace(report);
         }
+        radwolf_midi_configure_stereo(radwolf_sid2_address ? config.music_width : 0);
         soundFirstuSecTick = GetuSec();
         memset(soundRingBuffer, mahoneyLUT[128], RING_SIZE);
         memset(radwolf_right_ring, radwolf_sid2_lut ? radwolf_sid2_lut[128] : 0, RING_SIZE);

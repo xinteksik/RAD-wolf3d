@@ -6,7 +6,7 @@ import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-FORBIDDEN = {'.wl6', '.wl1', '.sod', '.sd1', '.sd2', '.sd3', '.wad', '.sf2',
+FORBIDDEN = {'.wl6', '.wl1', '.sod', '.sd1', '.sd2', '.sd3', '.wad', '.sf2', '.mid', '.wlf',
              '.wav', '.raw', '.ani', '.img', '.elf', '.o', '.exe', '.dll', '.pyc', '.bak'}
 
 

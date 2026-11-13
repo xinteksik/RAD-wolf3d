@@ -20,6 +20,7 @@ static uint32_t key_action(unsigned key)
         case '2': return RW_WEAPON_2;
         case '3': return RW_WEAPON_3;
         case '4': return RW_WEAPON_4;
+        case RW_RAD_F1: return RW_MAP;
         default: return 0;
     }
 }

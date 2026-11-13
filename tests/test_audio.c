@@ -22,6 +22,8 @@ void disableInterrupts(void) { }
 void enableInterrupts(void) { }
 static uint64_t now_us = 1000000;
 static unsigned generated, completions, starts;
+static unsigned music_stereo_width;
+void radwolf_midi_configure_stereo(unsigned width) { music_stereo_width = width; }
 uint64_t GetuSec(void) { return now_us; }
 void startSIDSamplePlayer(void) { ++starts; }
 void stopSIDSamplePlayer(void) { }
@@ -49,6 +51,7 @@ int main(void)
     Mix_ChannelFinished(finished);
     radwolf_audio_pump();
     assert(starts == 1 && generated == 2205);
+    assert(music_stereo_width == 0);
     assert(soundRingBuffer[0] == 160);
     assert(soundRingBuffer[2204] == 160 && soundRingBuffer[2205] == 128);
     radwolf_audio_pump();

@@ -19,7 +19,7 @@ for source in id_ca id_in id_pm id_sd id_us id_vh id_vl signon wl_agent wl_act1 
         -c "$wolf_dir/$source.c" -o "$output_dir/$source.o"
     objects+=("$output_dir/$source.o")
 done
-for source in radwolf_input radwolf_rad_input radwolf_wolf_event_input radwolf_file radwolf_stdio_file; do
+for source in radwolf_input radwolf_rad_input radwolf_wolf_event_input radwolf_map radwolf_wolf_map radwolf_file radwolf_stdio_file; do
     aarch64-none-elf-gcc -std=gnu99 -O2 -ffreestanding -DRADWOLF_BAREMETAL \
         -Werror=implicit-function-declaration \
         -I"$repo_dir/src/baremetal" -I"$repo_dir/src" \
@@ -33,7 +33,7 @@ aarch64-none-elf-g++ -std=gnu++11 -O2 -ffreestanding -fno-exceptions -fno-rtti \
 objects+=("$output_dir/radwolf_wolf_rad_input.o")
 # Remove the superseded stub so wildcard firmware linking cannot retain it.
 rm -f "$output_dir/radwolf_silent_audio.o"
-for source in radwolf_audio radwolf_audio_config radwolf_wolf_sdl; do
+for source in radwolf_audio radwolf_audio_config radwolf_midi radwolf_downsample radwolf_wolf_sdl; do
     aarch64-none-elf-gcc -std=gnu99 -O2 -ffreestanding -DRADWOLF_BAREMETAL \
         -Werror=implicit-function-declaration \
         -I"$repo_dir/src/baremetal" -I"$repo_dir/src" \

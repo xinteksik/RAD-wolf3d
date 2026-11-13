@@ -46,7 +46,7 @@
     "file": "id_sd.c",
     "override": "overrides/Wolf4SDL/id_sd.c",
     "base_sha256": "50ce93dd6b2ece7132e6268c41ab0231f75b309f44a371bca93a72efcf518333",
-    "sha256": "97ef55db894b4dda9ed816d0b79fa15395c35bb7fcc6e54c25f5d988f60157c9"
+    "sha256": "f5fa3f1f2d2383b68ac53c437e76ee99bed4808b46cdb3524a987a76f39da76f"
   },
   {
     "repository": "Wolf4SDL",
@@ -74,14 +74,14 @@
     "file": "wl_main.c",
     "override": "overrides/Wolf4SDL/wl_main.c",
     "base_sha256": "99ad1eb8e5160beeb859be31db8fe7b2d674f976ce348b22ba0894041126be08",
-    "sha256": "729ae02b2c10883d8c0cbde153ed669550956597c8b7bfb72e34b32b7b05472e"
+    "sha256": "8cb25cb30ea2d97d597c01b24f1a878130674ecc97ed8e65349c8cc172533daf"
   },
   {
     "repository": "Wolf4SDL",
     "file": "wl_menu.c",
     "override": "overrides/Wolf4SDL/wl_menu.c",
     "base_sha256": "a458633c816fb27939fb62ebbf4731ef69b0881066cc1dbd7b1ca8e07a9490cf",
-    "sha256": "ac7515cc1f58076053d14521b804de234e2690afec94636f1548fa2ca083bcd4"
+    "sha256": "70d050430d126fcc8a6b37cffec9b88f1717fbd2479306fc65d1ccb5a72e6f1a"
   },
   {
     "repository": "Circle",
@@ -89,5 +89,12 @@
     "override": "overrides/Circle/include/circle/sysconfig.h",
     "base_sha256": "e2c891f088b644657c797cf06e6acf7a879e9cab6ea590d8dd3f486e892be5a3",
     "sha256": "beb700402c37b4da17e921fdb8bf4c4b242bd304e65ed24ecea02f40e4d4540f"
+  },
+  {
+    "repository": "Wolf4SDL",
+    "file": "wl_play.c",
+    "override": "overrides/Wolf4SDL/wl_play.c",
+    "base_sha256": "ae26632df767b49330485e8712f157bbbcd6848dddc6b9ee0f1342260ad17896",
+    "sha256": "ed6bdba49df1536cdc88795e94719590553e13facff0e63523fdc1892b3de801"
   }
 ]

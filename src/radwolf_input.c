@@ -38,7 +38,7 @@ void radwolf_input_sync_wolf(uint32_t *previous_keys, uint32_t actions,
         RW_TURN_LEFT | RW_STRAFE_LEFT, RW_TURN_RIGHT | RW_STRAFE_RIGHT,
         RW_FIRE, RW_USE, RW_RUN, RW_STRAFE_LEFT | RW_STRAFE_RIGHT,
         RW_ESCAPE, RW_CONFIRM, RW_WEAPON_1, RW_WEAPON_2,
-        RW_WEAPON_3, RW_WEAPON_4
+        RW_WEAPON_3, RW_WEAPON_4, RW_MAP
     };
     if (previous_keys == 0 || event == 0)
         return;

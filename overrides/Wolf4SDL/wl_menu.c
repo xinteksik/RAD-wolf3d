@@ -357,6 +357,34 @@ static const char *ScanNames[] =
 // Wolfenstein Control Panel!  Ta Da!
 //
 ////////////////////////////////////////////////////////////////////
+#ifdef RADWOLF_BAREMETAL
+static void radwolf_show_menu_loading(void)
+{
+    int saved_font = fontnumber;
+    byte saved_color = fontcolor, saved_background = backcolor;
+    word saved_x = WindowX, saved_width = WindowW, saved_y = PrintY;
+
+    ClearMScreen();
+    DrawStripes(10);
+    DrawWindow(56, 76, 208, 48, BKGDCOLOR);
+    fontnumber = 1;
+    SETFONTCOLOR(TEXTCOLOR, BKGDCOLOR);
+    WindowX = 64;
+    WindowW = 192;
+    PrintY = 94;
+    US_CPrint("Loading menu...");
+    VW_UpdateScreen();
+    MenuFadeIn();
+
+    fontnumber = saved_font;
+    fontcolor = saved_color;
+    backcolor = saved_background;
+    WindowX = saved_x;
+    WindowW = saved_width;
+    PrintY = saved_y;
+}
+#endif
+
 void
 US_ControlPanel (ScanCode scancode)
 {
@@ -364,6 +392,15 @@ US_ControlPanel (ScanCode scancode)
 
 #ifdef _arch_dreamcast
     DC_StatusClearLCD();
+#endif
+
+#ifdef RADWOLF_BAREMETAL
+    /* Present feedback before loading MIDI/SF2 and menu sound resources. */
+    if (!ingame && param_nowait) {
+        extern void radwolf_boot_trace(const char *);
+        radwolf_show_menu_loading();
+        radwolf_boot_trace("menu: loading screen visible");
+    }
 #endif
 
     if (ingame)
@@ -416,6 +453,12 @@ US_ControlPanel (ScanCode scancode)
 
     DrawMainMenu ();
     MenuFadeIn ();
+#ifdef RADWOLF_BAREMETAL
+    {
+        extern void radwolf_boot_trace(const char *);
+        radwolf_boot_trace("menu: ready");
+    }
+#endif
     StartGame = 0;
 
     //

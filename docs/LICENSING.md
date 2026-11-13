@@ -12,6 +12,8 @@ are included. Names and trademarks remain their owners' property.
 | Wolf4SDL/id engine | Upstream README explicitly offers the GPL option; its GPL v2 text and original alternative id notice are preserved |
 | DOSBox DBOPL | GPL-2.0-or-later notices in upstream source |
 | Measured UltiSID table | MIT, copyright 2026 Kelly Fox; full notice in third_party |
+| TinySoundFont / TinyMidiLoader | MIT / zlib; full notices retained in third_party headers |
+| wolfmidi | Separate offline GPL-2.0-only conversion tool, not linked into firmware |
 | Newlib | Multiple per-file licenses; COPYING.NEWLIB reproduced for reference |
 | MAME OPL | Implementation is not linked; alternative license retained as an upstream notice, not selected for this build |
 

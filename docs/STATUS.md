@@ -1,5 +1,24 @@
 # Validation status
 
+## MIDI test release — 2026-11-13
+
+`v0.3.1-rc1` includes all-song MIDI/SF2 music, 44100-to-22050 Hz FIR
+resampling, separate MIDI instrument placement for dual SIDs, visible menu
+loading feedback, the Windows MIDI preparation kit, and an F1 full-level map.
+The latest kernel hash and byte count are in RELEASE.json. Host tests and
+firmware linking are verified; this complete candidate needs the maintainer's
+hardware test, especially map entry/exit and gameplay pause/resume.
+
+The maintainer confirmed the preceding MIDI stereo variant on a real C64,
+and reports successful playback with multiple SF2 banks. This does not claim
+the new map/loading-screen combination has already been hardware checked.
+The actual Windows BAT was tested with private WL6 inputs: successful full
+conversion, repeat reuse, damaged-output regeneration with backup, Unicode/
+space/ampersand paths, external-folder arguments, missing/corrupt inputs and
+converter failure. All 27 outputs matched the existing Linux conversion hashes.
+
+The sections below retain historical bring-up and publication results.
+
 ## Hardware baseline
 
 The maintainer reported a working menu, game launch and two played levels

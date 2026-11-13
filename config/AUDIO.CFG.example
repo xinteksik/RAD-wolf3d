@@ -5,3 +5,5 @@ SID1_TYPE=AUTO
 SID2_ADDRESS=$D500
 SID2_TYPE=AUTO
 STEREO_WIDTH=100
+# Optional automatic MIDI instrument spread; requires stereo, default 70.
+# MIDI_STEREO_WIDTH=70

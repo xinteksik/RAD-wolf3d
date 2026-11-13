@@ -1,5 +1,8 @@
 # SID stereo audio
 
+Optional MIDI + SoundFont playback covers all 27 full WL6 songs; see
+[MIDI-MENU.md](MIDI-MENU.md) for assets, conversion, fallback and testing.
+
 Hardware-confirmed real-chip configuration: stereo ON, SID1 `$D400`/8580,
 SID2 `$D500`/6581, width 100. That development snapshot is recorded in
 STATUS.md; compiled snapshots are not part of this source folder. For this optional
@@ -84,9 +87,13 @@ reduce separation; 0 restores Wolf's original tables, which often give equal
 gains for close sounds. Positions update as the player turns or moves.
 Mono retains the original positioning/mix.
 
-The original mono OPL2 music and AdLib effects are duplicated to the
-center; this feature does not add spatialization to that music. The RAD intro
-continues using original `$D400` playback before game audio configuration.
+The original mono OPL2 music and AdLib effects remain centered. MIDI preserves
+the SoundFont's stereo and explicit MIDI pan, and additionally places otherwise
+centered melodic channels across the stereo field. `MIDI_STEREO_WIDTH=70` is
+the default automatic spread when both SIDs are enabled; 0 restores the old
+MIDI/SF2 panorama and 100 maximizes automatic spread. Bass/tuba and percussion
+channels stay centered unless the MIDI explicitly pans them. This option is
+independent of the digitized-effect `STEREO_WIDTH`; see MIDI-MENU.md.
 
 Stereo adds a second SID write to the timer and blitter sample paths. Existing
 DMA timing constants are kept, and the blitter accounts for the extra write.

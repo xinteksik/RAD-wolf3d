@@ -31,7 +31,7 @@ static char *trim(char *s)
 int radwolf_audio_config_parse(radwolf_audio_config *config, const char *text)
 {
     if (!config) return -1;
-    *config = (radwolf_audio_config){0, 0xd500, 0, 100, 0xd400, 0};
+    *config = (radwolf_audio_config){0, 0xd500, 0, 100, 0xd400, 0, 70};
     if (!text) return 0;
     radwolf_audio_config parsed = *config;
     while (*text) {
@@ -59,12 +59,13 @@ int radwolf_audio_config_parse(radwolf_audio_config *config, const char *text)
                      || (base >= 0xde00 && base <= 0xdfe0))) return -1;
             if (key[3] == '1') parsed.primary_address = (unsigned)base;
             else parsed.address = (unsigned)base;
-        } else if (!strcmp(key, "STEREO_WIDTH")) {
+        } else if (!strcmp(key, "STEREO_WIDTH") || !strcmp(key, "MIDI_STEREO_WIDTH")) {
             if (!isdigit((unsigned char)*value)) return -1;
             char *end;
             unsigned long width = strtoul(value, &end, 10);
             if (*end || width > 100) return -1;
-            parsed.width = (unsigned)width;
+            if (!strcmp(key, "MIDI_STEREO_WIDTH")) parsed.music_width = (unsigned)width;
+            else parsed.width = (unsigned)width;
         } else if (!strcmp(key, "SID1_TYPE") || !strcmp(key, "SID2_TYPE")) {
             unsigned *model = key[3] == '1' ? &parsed.primary_model : &parsed.model;
             if (!strcmp(value, "AUTO")) *model = 0;

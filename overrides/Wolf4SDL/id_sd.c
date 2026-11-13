@@ -32,6 +32,7 @@
 #include <SDL_mixer.h>
 #ifdef RADWOLF_BAREMETAL
 #include "radwolf_audio_config.h"
+#include "radwolf_midi.h"
 #endif
 #ifdef RADWOLF_BAREMETAL
 extern void radwolf_boot_trace(const char *);
@@ -863,7 +864,11 @@ void SDL_IMFMusicPlayer(void *udata, Uint8 *stream, int len)
                 }
             }
         }
-        if(sqActive)
+        if(sqActive
+#ifdef RADWOLF_BAREMETAL
+           && !radwolf_midi_active()
+#endif
+        )
         {
             do
             {
@@ -1189,6 +1194,10 @@ SD_MusicOff(void)
 {
     word    i;
 
+#ifdef RADWOLF_BAREMETAL
+    radwolf_midi_stop();
+#endif
+
     sqActive = false;
     switch (MusicMode)
     {
@@ -1225,6 +1234,9 @@ SD_StartMusic(int chunk)
         sqHackTime = 0;
         alTimeCount = 0;
         SD_MusicOn();
+#ifdef RADWOLF_BAREMETAL
+        radwolf_midi_start((unsigned)(chunk - STARTMUSIC), 0);
+#endif
     }
 }
 
@@ -1270,6 +1282,9 @@ SD_ContinueMusic(int chunk, int startoffs)
         alTimeCount = 0;
 
         SD_MusicOn();
+#ifdef RADWOLF_BAREMETAL
+        radwolf_midi_start((unsigned)(chunk - STARTMUSIC), 1);
+#endif
     }
 }
 

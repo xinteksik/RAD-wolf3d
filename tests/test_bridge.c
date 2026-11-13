@@ -64,10 +64,12 @@ static void fake_log(void *user, const char *message)
 }
 
 void test_files(void);
+void test_map(void);
 
 int main(void)
 {
     test_files();
+    test_map();
     static uint8_t src[RADWOLF_HEIGHT][RADWOLF_WIDTH + 5];
     static uint32_t dst[RADWOLF_HEIGHT][RADWOLF_WIDTH + 3];
     static radwolf_rgb pal[RADWOLF_PALETTE_SIZE];
@@ -158,6 +160,15 @@ int main(void)
     radwolf_rad_input_reset(&rad_input);
     radwolf_rad_input_event(&rad_input, 0x10000 | 'W' | 256);
     assert(radwolf_rad_input_actions(&rad_input) == 0);
+    radwolf_rad_input_event(&rad_input, RW_RAD_F1 | 256);
+    assert(radwolf_rad_input_actions(&rad_input) == RW_MAP);
+    uint32_t map_previous = 0;
+    fake_keys map_keys = {0, 0};
+    radwolf_input_sync_wolf(&map_previous, RW_MAP, fake_key_event, &map_keys);
+    assert(map_keys.held == (UINT32_C(1) << RW_KEY_MAP));
+    radwolf_rad_input_event(&rad_input, RW_RAD_F1);
+    radwolf_input_sync_wolf(&map_previous, radwolf_rad_input_actions(&rad_input), fake_key_event, &map_keys);
+    assert(map_keys.held == 0 && map_keys.events == 2);
 
     fake_platform fake = {100, 0, 0};
     radwolf_platform platform;

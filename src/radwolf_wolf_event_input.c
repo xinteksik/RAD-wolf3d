@@ -13,7 +13,7 @@ static void set_wolf_key(void *user, enum radwolf_key key, int down)
     static const ScanCode scans[RW_KEY_COUNT] = {
         sc_UpArrow, sc_DownArrow, sc_LeftArrow, sc_RightArrow,
         sc_Control, sc_Space, sc_LShift, sc_Alt, sc_Escape, sc_Return,
-        sc_1, sc_2, sc_3, sc_4
+        sc_1, sc_2, sc_3, sc_4, sc_F1
     };
     (void)user;
     if (key >= RW_KEY_COUNT)
