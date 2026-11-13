@@ -8,6 +8,20 @@ official id Software, GOG or RAD release.
 **A real SID is required for supported audio. Ultimate/UltiSID audio is
 experimental and may sound distorted or otherwise incorrect.**
 
+## Rendering evolution
+
+The same source frame shows three stages of the C64 color conversion:
+
+| 1. Original conversion | 2. Solid floor and ceiling | 3. Clean conversion, no added dither |
+|---|---|---|
+| ![Original full-frame dithering](compare/01_scene-1-original.png) | ![Solid floor and ceiling with dithered textures](compare/02_scene-1-current.png) | ![Selected conversion with no added dithering](compare/03_scene-1-no-dither.png) |
+
+Stage 1 also dithers the flat floor and ceiling. Stage 2 gives those surfaces
+one color while retaining texture dithering. Stage 3 removes the added dither
+from textures too: `DITHER=0`, `BRIGHTNESS=20`, `EXPOSURE=350`. Colored ceilings
+retain their closest C64 hue. These maintainer-approved offline previews
+use the same source image and VIC-II color constraints. See [image notices](docs/images/README.md).
+
 ## Screenshots
 
 ### Gameplay
@@ -102,6 +116,7 @@ clean, eject or write to an SD card automatically.
 | C64 left-arrow key | Escape / back |
 | 1–4 | Select weapon |
 | F1 | Full level map; F1 or left-arrow closes it |
+| P | Save a pre-conversion frame to RADWOLF/CAPxxxx.RWF for local comparisons |
 
 The physical joystick is not polled by this firmware. Port-1 mouse/joystick
 digital lines are filtered from keyboard scanning. See [Audio](docs/AUDIO.md)
@@ -109,6 +124,27 @@ for mono, stereo and per-SID address/type configuration.
 
 The supplied default audio configuration is **mono with automatic SID1
 detection** (`STEREO=OFF`, `SID1_TYPE=AUTO`). SID2 is unused in mono mode.
+
+## Video settings
+
+Edit `RADWOLF/VIDEO.CFG` on the SD card and reboot:
+
+```ini
+DITHER=0
+BRIGHTNESS=20
+EXPOSURE=350
+FLASH=FRAME
+```
+
+`FLASH=FRAME` shows yellow feedback around the game view when collecting an
+item and red feedback when hit, without changing the scene palette. `OFF`
+disables these flashes, `STATUS` confines the tint to the bottom status bar,
+and `FULL` restores the original whole-screen effect. The frame uses existing
+margins where possible, or a thin inset at full view size. Damage takes
+priority. This new feedback still awaits maintainer hardware confirmation.
+
+See [video settings](docs/VIDEO-CONFIG.md) for ranges and defaults, and
+[offline comparisons](docs/VIDEO-LAB.md) for the local HTML/VICE workflow.
 
 ## Source layout and credits
 
