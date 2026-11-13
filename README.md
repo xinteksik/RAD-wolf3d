@@ -10,15 +10,23 @@ experimental and may sound distorted or otherwise incorrect.**
 
 ## Screenshots
 
-### Menu
-
-![Wolfenstein 3D menu displayed through RAD-Wolf](docs/images/wolf-menu.png)
-
 ### Gameplay
 
-![Wolfenstein 3D gameplay displayed through RAD-Wolf](docs/images/wolf-game.png)
+![Combat by a doorway on RAD-Wolf](docs/images/wolf-game.png)
 
-Captures supplied by the project maintainer. The game artwork remains the
+### Corridors
+
+![Stone corridor with a solid floor and ceiling on RAD-Wolf](docs/images/wolf-corridor.png)
+
+### Secret level
+
+![Secret-level gameplay on RAD-Wolf](docs/images/wolf-secret-level.png)
+
+### Level map
+
+![Full-level map with a highlighted player marker on RAD-Wolf](docs/images/wolf-map.png)
+
+Captures from a real Ultimate64, supplied by the project maintainer. The game artwork remains the
 property of its respective rights holders; these illustrations are not
 licensed as RAD-Wolf source code. See [image notices](docs/images/README.md).
 
