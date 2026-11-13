@@ -15,6 +15,19 @@ request for the public README. Files are copied without image modifications:
 `wolf-menu.png` is a retained earlier maintainer-supplied menu capture,
 no longer displayed in the main README.
 
+## Rendering evolution
+
+Three additional images were explicitly selected and approved by the maintainer
+for the README on 2026-11-13. They are copied unchanged from the supplied
+compare folder into the repository's compare directory:
+
+- `compare/01_scene-1-original.png`: original full-frame dither conversion.
+- `compare/02_scene-1-current.png`: solid floor/ceiling, dithered textures.
+- `compare/03_scene-1-no-dither.png`: selected conversion without added dithering.
+
+These are offline C64 bitmap previews of the same original host-game frame.
+They illustrate conversion changes, rather than additional hardware tests.
+
 Wolfenstein 3D game graphics, interface artwork and associated trademarks
 remain the property of their respective rights holders, including id Software.
 These screenshots are not relicensed under the repository's GPL source-code
