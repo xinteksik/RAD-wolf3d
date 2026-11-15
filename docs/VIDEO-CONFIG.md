@@ -42,7 +42,9 @@ embedded NUL or oversized file rejects the entire configuration. At most
 These are the same numerical controls as the preview. The default native
 host conversion matches the chosen no-dither preview exactly for the local
 level-9 reference. The ARM branch applies the same percentage to its dither
-offset before quantization; its hardware appearance still needs checking.
+offset before quantization. The maintainer accepted the deployed configuration
+and FRAME feedback on 2026-11-13; the preview's host/ARM bit identity remains
+a separate unconfirmed property.
 
 The explicit solid floor/ceiling colors and map colors keep their separate
 color selection. Brightness/exposure control the texture conversion, as in

@@ -35,7 +35,9 @@ The Pi's low-memory `gpu_mem=16` mode uses the matching `start_cd.elf` and
 `fixup_cd.dat` variant; retain that pair as well when using the supplied
 boot configuration. Obtain the compatible boot files, prefetch stub and
 RAD timing configuration from the [official RAD-Doom v01 release](https://github.com/frntc/RAD-Doom/releases/tag/v01)
-or your already working card. They are not bundled or relicensed here.
+or your already working card. The public source snapshot contains no boot
+binaries. The separate SD release includes the verified boot files with their
+original Broadcom license notices; they are not relicensed as RAD-Wolf code.
 The original downloaded release archive's reference SHA-256 is
 `ffb04ea018cdde257ec9f195beea85142748176865ef9f25dbfa6618437d204d`.
 

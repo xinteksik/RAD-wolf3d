@@ -67,14 +67,14 @@
     "file": "wl_game.c",
     "override": "overrides/Wolf4SDL/wl_game.c",
     "base_sha256": "90061c7965429867a875f0d8dd815d8cf4709f8276f8f1e6a9225e869e894f30",
-    "sha256": "376c72f226a87fe5eb952fa346ac2ec377e61aef332007455be17adda22d98ae"
+    "sha256": "34111d8654d6a9946a0783ffeb649299c4d8aa91119526c82f2d38e3b61214b5"
   },
   {
     "repository": "Wolf4SDL",
     "file": "wl_main.c",
     "override": "overrides/Wolf4SDL/wl_main.c",
     "base_sha256": "99ad1eb8e5160beeb859be31db8fe7b2d674f976ce348b22ba0894041126be08",
-    "sha256": "8cb25cb30ea2d97d597c01b24f1a878130674ecc97ed8e65349c8cc172533daf"
+    "sha256": "bfc891e775d17cf8b5e112d4ba50a5a51d917924da1dcf591862be1be23dcdbd"
   },
   {
     "repository": "Wolf4SDL",
@@ -95,14 +95,14 @@
     "file": "wl_play.c",
     "override": "overrides/Wolf4SDL/wl_play.c",
     "base_sha256": "ae26632df767b49330485e8712f157bbbcd6848dddc6b9ee0f1342260ad17896",
-    "sha256": "ed6bdba49df1536cdc88795e94719590553e13facff0e63523fdc1892b3de801"
+    "sha256": "1327234e3177782c1d00ae66f95842ddfb86e1858686b12e96d1290bb7067f4e"
   },
   {
     "repository": "Wolf4SDL",
     "file": "wl_draw.c",
     "override": "overrides/Wolf4SDL/wl_draw.c",
     "base_sha256": "00df56f57a8d5107664dcb3e98baeaaaa2fa684c10741086f7036d3b49c529dc",
-    "sha256": "79e323a0ab478e4a5797ae8e3514bcfe8acda158fec1892c2bf3cb7635af5635"
+    "sha256": "e983ccd73e2cb494d1a35cb92afb7b3796c6069cc5d61a19306ca32bb3c397ca"
   },
   {
     "repository": "Wolf4SDL",
@@ -110,5 +110,19 @@
     "override": "overrides/Wolf4SDL/wl_scale.c",
     "base_sha256": "85fbd7e964e8836c862693cfb2895b05b44a90982699bf99d1d2843fb0284725",
     "sha256": "dc5bbf5c13ca82775e59876d484de905adce379f26c4c73c3509112b630dbe45"
+  },
+  {
+    "repository": "Wolf4SDL",
+    "file": "id_us.c",
+    "override": "overrides/Wolf4SDL/id_us.c",
+    "base_sha256": "4ad56c1424b31649d020d4ac8463b9770ae06c0aa8c8796a370db8c3979132af",
+    "sha256": "ae8bde22b8b64c7bdb9c718afc8a557af2fdf04ce73822a4be8327bcfc7b60ed"
+  },
+  {
+    "repository": "Wolf4SDL",
+    "file": "wl_agent.c",
+    "override": "overrides/Wolf4SDL/wl_agent.c",
+    "base_sha256": "5bbd8157058fe66c373a6b172a010ae218b9eee5cba3b6069e3c3b42cebd3773",
+    "sha256": "122c31e8aae5f56f5fdd9c2b59478d3f4394de75d15b46c5397ec6740ea01d51"
   }
 ]

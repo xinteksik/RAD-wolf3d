@@ -8,6 +8,10 @@ official id Software, GOG or RAD release.
 **A real SID is required for supported audio. Ultimate/UltiSID audio is
 experimental and may sound distorted or otherwise incorrect.**
 
+Current release: **v0.3.4-rc1** - menu keyboard fixes and a persistent F1 map
+with player direction, elevator, keys and missing-key door colors. See
+[release notes](docs/RELEASE-v0.3.4-rc1.md) and [map guide](docs/MAP.md).
+
 ## Rendering evolution
 
 The same source frame shows three stages of the C64 color conversion:
@@ -115,8 +119,18 @@ clean, eject or write to an SD card automatically.
 | Return | Confirm |
 | C64 left-arrow key | Escape / back |
 | 1–4 | Select weapon |
-| F1 | Full level map; F1 or left-arrow closes it |
+| F1 | Full level map; traversed floor is green; F1 or left-arrow closes it |
 | P | Save a pre-conversion frame to RADWOLF/CAPxxxx.RWF for local comparisons |
+
+Yes/no prompts accept **Y** and **N**. In the save-name field, type letters,
+numbers and spaces directly; **INST/DEL** erases the preceding character,
+**RETURN** saves, and the **left-arrow key** cancels. Letters are entered in
+uppercase. Gameplay shortcuts are suspended while editing a name.
+
+Current source builds show uncollected gold/silver keys and missing-key doors
+on the map; see the in-map color legend. The 3x3 player marker has no black halo.
+Map traversal is saved with the game in current source builds. Older saves
+start tracking at the restored position. See [map behavior](docs/MAP.md).
 
 The physical joystick is not polled by this firmware. Port-1 mouse/joystick
 digital lines are filtered from keyboard scanning. See [Audio](docs/AUDIO.md)
@@ -141,7 +155,7 @@ item and red feedback when hit, without changing the scene palette. `OFF`
 disables these flashes, `STATUS` confines the tint to the bottom status bar,
 and `FULL` restores the original whole-screen effect. The frame uses existing
 margins where possible, or a thin inset at full view size. Damage takes
-priority. This new feedback still awaits maintainer hardware confirmation.
+priority. The maintainer confirmed the deployed candidate on 2026-11-13.
 
 See [video settings](docs/VIDEO-CONFIG.md) for ranges and defaults, and
 [offline comparisons](docs/VIDEO-LAB.md) for the local HTML/VICE workflow.

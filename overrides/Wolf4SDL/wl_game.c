@@ -4,6 +4,7 @@
 #include "wl_def.h"
 #ifdef RADWOLF_BAREMETAL
 #include "radwolf_audio_config.h"
+#include "radwolf_map_history.h"
 #endif
 #include <SDL_mixer.h>
 
@@ -667,6 +668,9 @@ void SetupGameLevel (void)
 
     mapwidth = mapheaderseg[mapnum]->width;
     mapheight = mapheaderseg[mapnum]->height;
+#ifdef RADWOLF_BAREMETAL
+    radwolf_map_history_reset(&radwolf_current_map_history, mapwidth, mapheight, (unsigned)mapnum);
+#endif
 
 #ifdef USE_FEATUREFLAGS
     // Temporary definition to make things clearer

@@ -1,5 +1,6 @@
 /* RAD-Wolf bring-up: poll the C64 matrix through the known RAD-Doom scanner. */
 #include "radwolf_rad_input.h"
+#include "radwolf_wolf_event_input.h"
 
 extern void readKeyDoom(unsigned int *events, unsigned char *count);
 extern "C" void disableInterrupts();
@@ -14,8 +15,10 @@ static radwolf_rad_input input = {};
 extern "C" void radwolf_wolf_capture_keys(const unsigned int *events,
                                          unsigned char count)
 {
-    for (unsigned int i = 0; i < count; ++i)
+    for (unsigned int i = 0; i < count; ++i) {
         radwolf_rad_input_event(&input, events[i]);
+        radwolf_wolf_input_event(events[i]);
+    }
 }
 
 extern "C" uint32_t radwolf_wolf_milliseconds(void)

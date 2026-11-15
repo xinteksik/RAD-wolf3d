@@ -3,6 +3,7 @@
 #include "wl_def.h"
 #ifdef RADWOLF_BAREMETAL
 #include "radwolf_surface.h"
+#include "radwolf_flash.h"
 #endif
 #include "wl_cloudsky.h"
 #include "wl_atmos.h"
@@ -1573,6 +1574,10 @@ void ThreeDRefresh (void)
             US_PrintSigned(fps);
             US_Print(" fps");
         }
+#endif
+#ifdef RADWOLF_BAREMETAL
+        radwolf_flash_prepare_view(viewscreenx, viewscreeny, viewwidth, viewheight,
+                                   viewsize == 21 ? 0 : scaleFactor * STATUSLINES);
 #endif
         VW_UpdateScreen ();
     }

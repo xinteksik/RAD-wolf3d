@@ -33,6 +33,11 @@ def main():
     parser.add_argument('--output', type=Path, required=True)
     args = parser.parse_args()
     metadata = json.loads((ROOT / 'RELEASE.json').read_text())
+    hardware_state = metadata.get('latest_candidate_hardware_test', 'pending')
+    hardware_confirmed = hardware_state == 'maintainer-confirmed'
+    hardware_note = ('The maintainer confirmed the deployed candidate on hardware.\n'
+                     if hardware_confirmed else
+                     'This exact combined candidate still needs hardware testing.\n')
     version = 'v' + metadata['version']
     label = 'RAD-Wolf-' + version
     kernel = args.kernel.read_bytes()
@@ -63,11 +68,12 @@ def main():
     (sd / 'kernel_wolf.img').write_bytes(kernel)
     game = sd / 'RADWOLF'
     shutil.copytree(args.windows_kit, game, dirs_exist_ok=True)
+    shutil.copy2(ROOT / 'sd/RADWOLF/VIDEO.CFG', game / 'VIDEO.CFG')
     source_asset = label + '-source.tar.gz'
     (sd / 'RELEASE.json').write_text(json.dumps(dict(version=version,
         kernel_sha256=digest(kernel), kernel_bytes=len(kernel), game_data_included=False,
         default_audio='mono AUTO', source_asset=source_asset,
-        hardware_boot_of_this_binary='pending', midi_tracks=27,
+        hardware_boot_of_this_binary=hardware_state, midi_tracks=27,
         windows_preparation='RADWOLF/Prepare-MIDI.bat', level_map='F1'), indent=2) + '\n')
     (game / 'AUDIO.STEREO.CFG.example').write_text(
         '# Real 8580 at D400 and real 6581 at D500; adjust to your hardware.\n'
@@ -106,11 +112,21 @@ def main():
         'Controls: I/K move, J/L turn, Z/X strafe, Commodore fire, Space use,\n'
         'Shift/R run, Return confirm, C64 left-arrow back, 1-4 weapons.\n'
         'F1 opens the full level map. F1 or left-arrow closes it. Gameplay pauses\n'
-        'while viewing the map; music continues. Unvisited rooms are visible.\n\n'
+        'while viewing the map; music continues. Unvisited rooms are visible.\n'
+        'Green floor records traversal and is restored by save/load. Blue is the\n'
+        'elevator. Yellow/white dots are gold/silver keys; orange/white doors need\n'
+        'a missing gold/silver key. The 3x3 red/white player marker has no halo.\n'
+        'Y/N answer prompts. Type save names; INST/DEL erases, Return accepts,\n'
+        'left-arrow cancels. Older saves start tracking at the loaded position.\n\n'
+        'Video: RADWOLF/VIDEO.CFG controls DITHER, BRIGHTNESS, EXPOSURE and FLASH.\n'
+        'Defaults: 0% dither, 20/16 brightness, 350/256 exposure, FLASH=FRAME.\n'
+        'FRAME flashes a yellow pickup/red damage outline; OFF disables feedback,\n'
+        'STATUS confines it to the status bar, FULL restores whole-screen flashes.\n'
+        'Reboot after editing VIDEO.CFG. P saves a local CAPxxxx.RWF RGB capture.\n\n'
         'UPDATING: preserve your working config.txt, RAD/rad.cfg, AUDIO.CFG,\n'
-        'CONFIG.WL6 and saves. Keep kernel=kernel_wolf.img in your boot config.\n'
+        'VIDEO.CFG, CONFIG.WL6 and saves. Keep kernel=kernel_wolf.img in boot config.\n'
         'The supplied default clocks/GPIO/RAD settings are unchanged from rc1.\n'
-        'This exact combined candidate still needs hardware testing.\n\n'
+        + hardware_note + '\n'
         'Project: https://github.com/xinteksik/RAD-wolf3d\n'
         'Game purchase: https://www.gog.com/en/game/wolfenstein_3d\n'
         'Source asset: ' + source_asset + '\n')
@@ -120,6 +136,11 @@ def main():
         'do RADWOLF. Ve Windows spust RADWOLF/Prepare-MIDI.bat; vytvori MIDI.\n'
         'Volitelny SF2 uloz jako RADWOLF/soundfont.sf2. Bez nej hraje OPL.\n'
         'F1 ve hre otevre mapu, F1 nebo leva sipka ji zavre.\n'
+        'Zelena cesta se uklada se hrou. Modra znaci vytah. Klice jsou zlute/bile;\n'
+        'dvere bez potrebneho klice oranzove/bile. Hrac nema cerny lem.\n'
+        'Y/N odpovida v menu; nazev savu pis, INST/DEL maze, Return potvrdi.\n'
+        'VIDEO.CFG nastavuje obraz; vychozi je bez rastru a se zableskem ramecku.\n'
+        'FLASH=OFF/FRAME/STATUS/FULL. Po zmene konfigurace restartuj.\n'
         'Pri aktualizaci zachovej vlastni nastaveni a ulozene hry.\n'
         'Podrobny anglicky navod: START-HERE.txt a RADWOLF/README.txt.\n')
     notice = (sd / 'NOTICE.txt').read_text()
@@ -201,19 +222,17 @@ def main():
         'Default: mono AUTO. Preserve custom settings and saves when updating.\n'
         'No game data, generated soundtrack or SoundFont is included.\n'
         'Publish the SD ZIP, complete source tarball and SHA256SUMS together.\n'
-        'Mark this RC as a pre-release; exact hardware boot/map testing is pending.\n\n')
+        'Keep this RC marked as a pre-release.\n' + hardware_note + '\n')
     (output / 'RELEASE-NOTES.md').write_text(notes)
     (output / 'GITHUB-DESCRIPTION.md').write_text(quick)
     (output / 'VALIDATION.md').write_text(
         '# Validation\n\nKernel SHA-256: `' + digest(kernel) + '`\n\n'
-        'Firmware build and make test/test-opl/test-audio-startup passed.\n'
-        'Windows preparation: six end-to-end cases passed, including Unicode,\n'
-        'repeat reuse, protected regeneration, corrupt input and converter failure.\n'
-        'All 27 generated MIDI tracks matched the existing reference hashes.\n'
-        'SD/source archive checks and extracted-SD BAT smoke test: see VALIDATION.json.\n'
+        'See VALIDATION.json for the checks actually run for this release.\n'
+        'Detailed host tests, archive audits and Windows-kit checks are recorded\n'
+        'separately from the maintainer hardware confirmation.\n'
         f'Corresponding source archive contains {source_count} entries plus source checksums.\n'
         'This RC reuses the unchanged boot/RAD configuration from the first release.\n'
-        'Exact hardware boot/F1 map confirmation remains pending.\n'
+        + hardware_note +
         'No SD card was written or ejected by this packaging step.\n')
     assets = [output / (label + '-SD.zip'), output / source_asset, output / (label + '-GitHub.zip')]
     (output / 'SHA256SUMS').write_text(''.join(digest(path.read_bytes()) + '  ' + path.name + '\n' for path in assets))

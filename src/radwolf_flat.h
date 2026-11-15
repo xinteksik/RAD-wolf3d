@@ -21,12 +21,39 @@ static inline int radwolf_flat_color(uint32_t rgb)
     int r = (int)((rgb >> 16) & 255u);
     int g = (int)((rgb >> 8) & 255u);
     int b = (int)(rgb & 255u);
-    int best = 0, best_distance = 3 * 256 * 256;
+    int source_min = r < g ? r : g;
+    if (b < source_min) source_min = b;
+    int source_max = r > g ? r : g;
+    if (b > source_max) source_max = b;
+    int chroma = source_max - source_min;
+    int source_channels[3] = {r, g, b};
+    /* A clearly colored dark ceiling must not become gray merely because
+     * gray has a closer brightness. Compare normalized chroma as well.
+     * Near-neutral colors keep the ordinary RGB rule, including fades. */
+    int preserve_hue = chroma >= 24;
+    int best = 0, best_distance = 6 * 256 * 256;
     for (int i = 0; i < 16; ++i) {
         int dr = r - radwolf_c64_palette[i][0];
         int dg = g - radwolf_c64_palette[i][1];
         int db = b - radwolf_c64_palette[i][2];
         int distance = dr * dr + dg * dg + db * db;
+        if (preserve_hue) {
+            int target_min = radwolf_c64_palette[i][0];
+            int target_max = target_min;
+            for (int channel = 1; channel < 3; ++channel) {
+                int value = radwolf_c64_palette[i][channel];
+                if (value < target_min) target_min = value;
+                if (value > target_max) target_max = value;
+            }
+            int target_chroma = target_max - target_min;
+            if (target_chroma < 24) continue;
+            for (int channel = 0; channel < 3; ++channel) {
+                int source_hue = (source_channels[channel] - source_min) * 255 / chroma;
+                int target_hue = (radwolf_c64_palette[i][channel] - target_min) * 255 / target_chroma;
+                int delta = source_hue - target_hue;
+                distance += delta * delta;
+            }
+        }
         if (distance < best_distance) {
             best_distance = distance;
             best = i;

@@ -12,9 +12,6 @@ request for the public README. Files are copied without image modifications:
 | `wolf-secret-level.png` | `frame-00021-20261113-150303-330990.png` |
 | `wolf-map.png` | `frame-00034-20261113-150511-250620.png` |
 
-`wolf-menu.png` is a retained earlier maintainer-supplied menu capture,
-no longer displayed in the main README.
-
 ## Rendering evolution
 
 Three additional images were explicitly selected and approved by the maintainer

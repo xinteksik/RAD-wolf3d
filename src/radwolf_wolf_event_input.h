@@ -5,6 +5,8 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
+void radwolf_wolf_input_event(uint32_t event);
+void radwolf_wolf_input_text_mode(int enabled);
 void radwolf_wolf_input_poll(void);
 void radwolf_wolf_input_set_actions(uint32_t actions);
 void radwolf_wolf_input_reset(void);

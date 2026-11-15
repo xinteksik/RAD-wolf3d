@@ -1,10 +1,8 @@
 {
   "project": "RAD-Wolf",
-  "snapshot_date": "2026-11-13",
+  "snapshot_date": "2026-11-15",
   "distribution": "source-only",
   "hardware_baseline_sha256": "4104fa8d9d6d0d58c40a37ef3700a9265efd7d1b1e063efa113f83949eb8db02",
-  "no_intro_candidate_sha256": "becc8e1eef1c39fd662f51b49efb3254e18bf2bd83abbe80463b91fbd9b73d7a",
-  "no_intro_candidate_hardware_boot": "pending",
   "game_data_included": false,
   "kernel_binaries_included": false,
   "supported_audio_requires_real_sid": true,
@@ -17,14 +15,42 @@
     "sid1_type": "AUTO",
     "sid2_type": "AUTO"
   },
-  "version": "0.3.2-rc1",
+  "version": "0.3.4-rc1",
   "prerelease": true,
   "midi_music_tracks": 27,
   "windows_midi_preparation": true,
   "f1_level_map": true,
-  "latest_candidate_hardware_test": "pending",
-  "latest_candidate_sha256": "0618e055cfb2ca319c924a3bdceab7717857a1026bcb8573123303df248ff72e",
-  "latest_candidate_bytes": 795216,
+  "latest_candidate_hardware_test": "maintainer-confirmed",
+  "latest_candidate_sha256": "ce00a903b8aa9698e123c2df496aa033b8c76da05de8d152a664857a91994222",
+  "latest_candidate_bytes": 799864,
   "solid_floor_ceiling_only": true,
-  "map_player_marker": "red square with internal eight-direction white indicator"
+  "map_player_marker": "3x3 map dots, eight red and one white perimeter dot, no halo",
+  "video_defaults": {
+    "dither": 0,
+    "brightness": 20,
+    "exposure": 350,
+    "flash": "FRAME"
+  },
+  "preconversion_capture_key": "P",
+  "maintainer_confirmation": {
+    "date": "2026-11-14",
+    "scope": "deployed kernel accepted; map traversal/save-load and legacy save fallback reported, followed by key/lock annotations and halo removal acceptance; no exhaustive stability or hardware matrix claimed"
+  },
+  "map_visited_floor": true,
+  "map_visitation_saved": true,
+  "map_save_trailer_bytes": 528,
+  "map_exit_highlight": "light blue elevator switch",
+  "map_key_highlights": {
+    "gold_key": "yellow",
+    "silver_key": "white",
+    "missing_gold_key_door": "orange",
+    "missing_silver_key_door": "white"
+  },
+  "menu_keyboard": {
+    "yes_no": true,
+    "save_name_text": true,
+    "delete": "INST/DEL",
+    "confirm": "RETURN",
+    "cancel": "C64 left-arrow"
+  }
 }

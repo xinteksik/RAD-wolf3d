@@ -7,6 +7,11 @@ identified at each changed file's beginning.
 
 ## Wolf4SDL
 
+- Current development source: tracks traversed floor tiles, renders them green
+  on the F1 map, and preserves history in an optional versioned save trailer.
+  Existing save payloads/checksums stay unchanged; absent or damaged histories
+  fall back to tracking from the restored player position. See MAP.md.
+
 - Bare-metal entrypoint and lightweight surface/event adapters.
 - Checked FAT-backed data reads and edition/episode handling for tested WL6.
 - ARM/newlib compatibility and a 70 Hz clock adapter.

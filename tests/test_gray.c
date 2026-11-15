@@ -39,4 +39,11 @@ void test_gray(void)
     assert(radwolf_flat_pair(gray, 0x717171u) == -1);
     assert(radwolf_flat_pair(gray, black) == -1);
     assert(radwolf_flat_pair(0x717171u, 0x717171u) == -1);
+    /* The actual level-9 ceiling is RGB 64/0/64, not a neutral gray. */
+    assert(radwolf_flat_color(0x400040u) == 4);
+    assert(radwolf_flat_pair(radwolf_flat_tag(0x400040u), radwolf_flat_tag(0x400040u)) == 4);
+    assert(radwolf_flat_color(0x000040u) == 6);
+    assert(radwolf_flat_color(0x707172u) == 12);
+    assert(radwolf_flat_color(0x717171u) == 12);
+    assert(radwolf_flat_color(0x383838u) == 11);
 }

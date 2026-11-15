@@ -7,6 +7,8 @@
 #include "radwolf_surface.h"
 #include "radwolf_flat.h"
 #include "radwolf_map.h"
+#include "radwolf_capture.h"
+#include "radwolf_flash.h"
 
 struct SDL_Window { int unused; };
 struct SDL_Renderer { int unused; };
@@ -197,9 +199,7 @@ int radwolf_wolf_blit_surface(SDL_Surface *src, const SDL_Rect *src_rect,
         for (int x = 0; x < w; ++x) {
             out[x] = rgb_lut[in[x]];
             if (radwolf_map_colors) {
-                out[x] = in[x] == RADWOLF_MAP_PLAYER_COLOR ? UINT32_C(0x8aff5555) :
-                         in[x] == RADWOLF_MAP_DIRECTION_COLOR ? UINT32_C(0x81ffffff) :
-                         solid_lut[in[x]];
+                out[x] = radwolf_map_color_tag(in[x], solid_lut[in[x]]);
             } else if (radwolf_surface_background(in + x))
                 out[x] = solid_lut[in[x]];
         }
@@ -238,6 +238,8 @@ void radwolf_wolf_render_present(SDL_Renderer *renderer)
         uint32_t c = pixels[i];
         DG_ScreenBuffer[i] = c;
     }
+    radwolf_flash_apply(DG_ScreenBuffer, 320);
+    radwolf_capture_frame(DG_ScreenBuffer);
     (*functionAddress[1])();
     radwolf_audio_pump();
 }

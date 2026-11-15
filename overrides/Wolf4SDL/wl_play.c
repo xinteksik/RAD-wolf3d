@@ -3,6 +3,8 @@
 #include "wl_def.h"
 #ifdef RADWOLF_BAREMETAL
 #include "radwolf_map.h"
+#include "radwolf_capture.h"
+#include "radwolf_flash.h"
 #endif
 #include "wl_cloudsky.h"
 #include "wl_shade.h"
@@ -686,6 +688,11 @@ void CheckKeys (void)
     }
 
 #ifdef RADWOLF_BAREMETAL
+    if (scan == sc_F2)
+    {
+        radwolf_capture_request();
+        return;
+    }
     if (scan == sc_F1)
     {
         radwolf_wolf_show_map();
@@ -1032,6 +1039,9 @@ void InitRedShifts (void)
 
 void ClearPaletteShifts (void)
 {
+#ifdef RADWOLF_BAREMETAL
+    radwolf_flash_event(0, 0);
+#endif
     bonuscount = damagecount = 0;
     palshifted = false;
 }
@@ -1103,6 +1113,15 @@ void UpdatePaletteShifts (void)
     else
         red = 0;
 
+#ifdef RADWOLF_BAREMETAL
+    radwolf_flash_event((unsigned)red, (unsigned)white);
+    if (radwolf_flash_mode != RADWOLF_FLASH_FULL)
+    {
+        if (palshifted) VL_SetPalette(gamepal, false);
+        palshifted = false;
+        return;
+    }
+#endif
     if (red)
     {
         VL_SetPalette (redshifts[red - 1], false);
@@ -1133,6 +1152,9 @@ void UpdatePaletteShifts (void)
 
 void FinishPaletteShifts (void)
 {
+#ifdef RADWOLF_BAREMETAL
+    radwolf_flash_event(0, 0);
+#endif
     if (palshifted)
     {
         palshifted = false;

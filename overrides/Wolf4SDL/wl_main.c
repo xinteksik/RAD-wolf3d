@@ -8,6 +8,9 @@
 #endif
 
 #include "wl_def.h"
+#ifdef RADWOLF_BAREMETAL
+#include "radwolf_map.h"
+#endif
 #include "wl_atmos.h"
 #include <SDL_syswm.h>
 
@@ -474,6 +477,11 @@ boolean SaveTheGame (FILE *file, int x, int y)
     fwrite (&checksum,sizeof(checksum),1,file);
 
     fwrite (&lastgamemusicoffset,sizeof(lastgamemusicoffset),1,file);
+#ifdef RADWOLF_BAREMETAL
+    radwolf_wolf_map_record_position();
+    if (radwolf_map_history_write(&radwolf_current_map_history, file) != 0)
+        return false;
+#endif
 
     return true;
 }
@@ -638,6 +646,11 @@ boolean LoadTheGame (FILE *file, int x, int y)
     fread (&oldchecksum,sizeof(oldchecksum),1,file);
 
     fread (&lastgamemusicoffset,sizeof(lastgamemusicoffset),1,file);
+#ifdef RADWOLF_BAREMETAL
+    radwolf_map_history_read(&radwolf_current_map_history, file, mapwidth, mapheight,
+                             (unsigned)(gamestate.mapon + 10 * gamestate.episode));
+    radwolf_wolf_map_record_position();
+#endif
 
     if (lastgamemusicoffset < 0)
         lastgamemusicoffset = 0;

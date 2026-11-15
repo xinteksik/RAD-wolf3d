@@ -4,9 +4,12 @@ INCLUDES = -Isrc
 all: test
 SOURCES = src/radwolf_frame.c src/radwolf_input.c src/radwolf_rad_input.c src/radwolf_platform.c src/radwolf_video.c src/radwolf_file.c src/radwolf_stdio_file.c tests/test_bridge.c
 SOURCES += tests/test_file.c
-SOURCES += src/radwolf_map.c tests/test_map.c
+SOURCES += src/radwolf_map.c src/radwolf_map_history.c tests/test_map.c tests/test_map_history.c
 SOURCES += tests/test_gray.c
 SOURCES += src/radwolf_surface.c tests/test_surface.c
+SOURCES += src/radwolf_capture.c tests/test_capture.c
+SOURCES += src/radwolf_video_config.c tests/test_video_config.c
+SOURCES += src/radwolf_flash.c tests/test_flash.c
 build/test_bridge: $(SOURCES) $(wildcard src/*.h)
 	mkdir -p build
 	$(CC) $(CFLAGS) $(INCLUDES) $(SOURCES) -o $@
@@ -32,10 +35,31 @@ test-audio-startup:
 	$(CC) $(CFLAGS) -c src/radwolf_downsample.c -o build/downsample_host.o
 	$(CXX) -std=c++11 -O2 -DUSE_GPL -Isrc/baremetal build/id_sd_host.o build/audio_startup_host.o build/audio_host.o build/audio_config_host.o build/midi_host.o build/downsample_host.o src/radwolf_opl.cpp upstream/Wolf4SDL/dosbox/dbopl.cpp -lm -o build/test_audio_startup
 	./build/test_audio_startup
+test-flash-engine:
+	mkdir -p build
+	$(CC) -std=gnu99 -O2 -Werror=implicit-function-declaration -ffunction-sections -fdata-sections -DRADWOLF_BAREMETAL -Isrc/baremetal -Isrc -Iupstream/Wolf4SDL tests/test_flash_engine.c upstream/Wolf4SDL/wl_play.c src/radwolf_flash.c -Wl,--gc-sections -o build/test_flash_engine
+	./build/test_flash_engine
 build/test_downsample: src/radwolf_downsample.c src/radwolf_downsample_coeffs.h tests/test_downsample.c src/radwolf_downsample.h
 	mkdir -p build
 	$(CC) $(CFLAGS) $(INCLUDES) src/radwolf_downsample.c tests/test_downsample.c -lm -o $@
-test: build/test_bridge build/test_audio build/test_audio_config build/test_downsample
+build/id_us_menu_host.o: upstream/Wolf4SDL/id_us.c
+	mkdir -p build
+	$(CC) -std=gnu99 -O2 -ffunction-sections -fdata-sections -DRADWOLF_BAREMETAL -Isrc/baremetal -Isrc -Iupstream/Wolf4SDL -c $< -o $@
+build/test_menu_keyboard: src/radwolf_wolf_event_input.c src/radwolf_input.c tests/test_menu_keyboard.c build/id_us_menu_host.o
+	mkdir -p build
+	$(CC) -std=gnu99 -O2 -Wall -Wextra -Werror -Wno-unused-parameter -ffunction-sections -fdata-sections -DRADWOLF_BAREMETAL -Isrc/baremetal -Isrc -Iupstream/Wolf4SDL $^ -Wl,--gc-sections -o $@
+build/wl_main_map_host.o: upstream/Wolf4SDL/wl_main.c
+	mkdir -p build
+	$(CC) -std=gnu99 -O2 -ffunction-sections -fdata-sections -DRADWOLF_BAREMETAL -Isrc/baremetal -Isrc -Iupstream/Wolf4SDL -c $< -o $@
+build/wolf_map_host.o: src/radwolf_wolf_map.c
+	mkdir -p build
+	$(CC) -std=gnu99 -O2 -ffunction-sections -fdata-sections -DRADWOLF_BAREMETAL -Isrc/baremetal -Isrc -Iupstream/Wolf4SDL -c $< -o $@
+build/test_map_save_engine: tests/test_map_save_engine.c src/radwolf_map.c src/radwolf_map_history.c build/wl_main_map_host.o build/wolf_map_host.o
+	mkdir -p build
+	$(CC) -std=gnu99 -O2 -Wall -Wextra -Werror -Wno-unused-parameter -DRADWOLF_BAREMETAL -Isrc/baremetal -Isrc -Iupstream/Wolf4SDL $^ -Wl,--gc-sections -o $@
+test: build/test_map_save_engine build/test_menu_keyboard build/test_bridge build/test_audio build/test_audio_config build/test_downsample
+	./build/test_map_save_engine
+	./build/test_menu_keyboard
 	./build/test_bridge
 	./build/test_audio
 	./build/test_audio_config
@@ -45,6 +69,7 @@ test: build/test_bridge build/test_audio build/test_audio_config build/test_down
 	python3 -m unittest discover -s tests -p 'test_sid_stereo.py' -v
 	python3 -m unittest discover -s tests -p 'test_menu_midi.py' -v
 	python3 -m unittest discover -s tests -p 'test_windows_midi.py' -v
+	python3 -m unittest discover -s tests -p 'test_video_lab.py' -v
 clean:
 	rm -rf build
-.PHONY: all test test-opl test-audio-startup clean
+.PHONY: all test test-opl test-audio-startup test-flash-engine clean

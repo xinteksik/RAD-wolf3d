@@ -36,9 +36,15 @@
 #include <stdint.h>
 #include <string.h>
 #include <math.h>
+#ifndef RADWOLF_VIDEO_HOST
 #include <arm_neon.h>
+#endif
 #include "radwolf_gray.h"
 #include "radwolf_flat.h"
+#include "radwolf_video_config.h"
+#ifndef RADWOLF_VIDEO_HOST
+#include "radwolf_flash.h"
+#endif
 #define RADWOLF_VIDEO_WIDTH 320
 #define RADWOLF_VIDEO_HEIGHT 200
 #define min(a,b) ((a) < (b) ? (a) : (b))
@@ -49,7 +55,8 @@ unsigned char soundRingBuffer[16384];
 static uint8_t bluenoise256[256 * 256];
 extern void blitScreenDOOM(uint8_t *, uint32_t *, uint8_t *, uint8_t *);
 const float invGamma = 0.96111111111f;
-const int   exposure = 350;
+static int exposure = 350;
+static int dither_percent = 0;
 
 static uint8_t ditherMode = 2;
 static uint8_t selectedPreset = 0;
@@ -204,7 +211,9 @@ void precomputeColorQuantization()
 }
 
 
+#ifndef RADWOLF_VIDEO_HOST
 const int16x4_t quantMax = { RGB_LEVELS-1, RGB_LEVELS-1, RGB_LEVELS-1, RGB_LEVELS-1 }, quantMin = { 0, 0, 0, 0 };
+#endif
 
 int bgColor = 0;
 
@@ -328,8 +337,10 @@ void doImageConversion()
 			{
 				for ( int a = 0; a < 8; a += 2 )
 				{
+#ifndef RADWOLF_VIDEO_HOST
 					uint8x8_t  rgba_2    = vld1_u8( (const uint8_t *)&DG_ScreenBuffer[ ( x + a ) + ( y + c ) * RADWOLF_VIDEO_WIDTH ] );
 					uint16x8_t rgba_2_16 = vmovl_u8( rgba_2 );
+#endif
 
 					int c64color;
 					int solid_color = radwolf_flat_pair(
@@ -342,6 +353,17 @@ void doImageConversion()
 						c64color = solid_color;
 					} else
 					{
+#ifdef RADWOLF_VIDEO_HOST
+                        uint32_t p = DG_ScreenBuffer[(x + a) + (y + c) * RADWOLF_VIDEO_WIDTH];
+                        uint32_t q = DG_ScreenBuffer[(x + a + 1) + (y + c) * RADWOLF_VIDEO_WIDTH];
+                        int channels[3];
+                        for (int channel = 0; channel < 3; ++channel)
+                            channels[channel] = ((p >> (channel * 8)) & 255) +
+                                                ((q >> (channel * 8)) & 255);
+                        int lum = (channels[0] * 114 + channels[1] * 587 + channels[2] * 299) >> 11;
+                        for (int channel = 0; channel < 3; ++channel)
+                            channels[channel] *= brightnessScale;
+#else
 						int16x4_t t1 = vget_low_s16 ( *(int16x8_t*)&rgba_2_16 );
 						int16x4_t t2 = vget_high_s16( *(int16x8_t*)&rgba_2_16 );
 
@@ -352,6 +374,7 @@ void doImageConversion()
 						int lum = ( (int)wc[ 0 ] + (int)wc[ 1 ] + (int)wc[ 2 ] ) >> 11;
 
 						t1 = vmul_s16( t1, vld1_dup_s16( &brightnessScale ) );
+#endif
 
 						int i = (a/2 + x/2) + 0;
 
@@ -376,7 +399,18 @@ void doImageConversion()
 						int cc = ( c + y ) * 2 + ydisp;
 						i += xofs; cc += yofs;				
 						int16_t ditherValue = ( dm[ ( i & dmaskX ) + ( ( cc & dmaskY ) << dshift ) ] - curdofs ) * curdmul;
+                        ditherValue = (int16_t)(ditherValue * dither_percent / 100);
 
+#ifdef RADWOLF_VIDEO_HOST
+                        unsigned quantized[3];
+                        for (int channel = 0; channel < 3; ++channel) {
+                            int value = channels[channel] + ditherValue;
+                            value = min(32767, max(-32768, value));
+                            value >>= 5 + (8 - RGB_QUANTIZE_BITS);
+                            quantized[channel] = (unsigned)min(RGB_LEVELS - 1, max(0, value));
+                        }
+                        unsigned r = quantized[2], g = quantized[1], b = quantized[0];
+#else
 						t1 = vqadd_s16( t1, vld1_dup_s16( &ditherValue ) );
 						t1 >>= 5 + ( 8 - RGB_QUANTIZE_BITS ); 
 						t1 = vmin_s16( t1, quantMax );
@@ -386,6 +420,7 @@ void doImageConversion()
 						r = *(uint16_t *)&t1[ 2 ];
 						g = *(uint16_t *)&t1[ 1 ];
 						b = *(uint16_t *)&t1[ 0 ];
+#endif
 
 						int ofs = ( ( ( r << RGB_QUANTIZE_BITS ) + g ) << RGB_QUANTIZE_BITS ) + b;
 						c64color = mapRGB2C64[ ofs ];
@@ -516,7 +551,16 @@ void doImageConversion()
 void dg_Create(void) { DG_ScreenBuffer = framebuffer; }
 static int radwolf_video_prepare(void)
 {
-    /* Default ordered dithering is unchanged; no external noise asset needed. */
+#ifndef RADWOLF_VIDEO_HOST
+    radwolf_video_config config;
+    FILE *file = fopen("SD:RADWOLF/VIDEO.CFG", "rb");
+    (void)radwolf_video_config_read(&config, file);
+    if (file) fclose(file);
+    dither_percent = (int)config.dither_percent;
+    brightnessScale = (int16_t)config.brightness;
+    exposure = (int)config.exposure;
+    radwolf_flash_mode = config.flash_mode;
+#endif
     precomputeColorQuantization();
     return 0;
 }

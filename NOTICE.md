@@ -43,6 +43,7 @@ at RAD revision `bfa6d489382a33d4ff57edd4b5e690879456de87`.
 No endorsement or affiliation by id Software, Bethesda, GOG, frntc, Circle,
 Ultimate or any other upstream author/vendor is implied.
 
-The README's four maintainer-supplied screenshots illustrate the running port.
+The README's maintainer-supplied hardware captures and three approved rendering
+comparisons illustrate the port and its image conversion.
 Underlying game artwork retains its original rights and is not included in
 the source-code license grant; see `docs/images/README.md`.

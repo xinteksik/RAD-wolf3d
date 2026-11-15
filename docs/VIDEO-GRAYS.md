@@ -34,7 +34,7 @@ Validation must distinguish host tests/build success from real hardware
 appearance. Check open floor, ceiling, gray walls, doors, weapon edges,
 menus, fades, and damage flashes on the C64 before promoting the candidate.
 
-The maintainer confirmed that `docs/images/wolf-game.png` and `wolf-menu.png`
+The maintainer confirmed that `docs/images/wolf-game.png` and an earlier menu capture
 come from a real computer. They are the existing hardware reference, not
 captures of this change. The game image shows the ceiling pattern and a
 greenish floor pattern; the menu shows scattered light marks on its brown
