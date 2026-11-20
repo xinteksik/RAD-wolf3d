@@ -38,7 +38,11 @@ extern "C" void radwolf_wolf_delay(uint32_t milliseconds)
     uint64_t deadline = GetuSec() + static_cast<uint64_t>(milliseconds) * 1000u;
     while (GetuSec() < deadline) {
         radwolf_audio_pump();
+#if defined(__aarch64__)
         asm volatile("yield" ::: "memory");
+#else
+        asm volatile("" ::: "memory");
+#endif
     }
 }
 

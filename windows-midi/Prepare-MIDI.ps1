@@ -1,6 +1,7 @@
 # GPL-3.0-or-later. Independent Windows launcher for the wolfmidi executable.
 [CmdletBinding()]
-param([string]$GameDirectory = '')
+param([string]$GameDirectory = '',
+    [ValidateSet('Auto','WL1','WL6')][string]$Edition = 'Auto')
 $ErrorActionPreference = 'Stop'
 [Console]::OutputEncoding = New-Object Text.UTF8Encoding($false)
 $OutputEncoding = [Console]::OutputEncoding
@@ -14,8 +15,9 @@ $loops = @{
     POW=@(6,3); ROSTER=@(10,49); SALUTE=@(4,3); SEARCHN=@(10,7,8)
     SUSPENSE=@(10,13); VICMARCH=@(8,2); VICTORS=@(2,2,3)
 }
-$required = @('AUDIOHED.WL6','AUDIOT.WL6','GAMEMAPS.WL6','MAPHEAD.WL6',
-    'VGADICT.WL6','VGAGRAPH.WL6','VGAHEAD.WL6','VSWAP.WL6')
+$sharewareNames = @('CORNER','WARMARCH','GETTHEM','NAZI_NOR','POW','SEARCHN',
+    'SUSPENSE','WONDERIN','ENDLEVEL','ROSTER','URAHERO')
+$bases = @('AUDIOHED','AUDIOT','GAMEMAPS','MAPHEAD','VGADICT','VGAGRAPH','VGAHEAD','VSWAP')
 $work = $null
 $staging = $null
 $backup = $null
@@ -72,38 +74,57 @@ function Validate-Midi([string]$Path) {
 }
 
 try {
-    Write-Host 'RAD-Wolf - prepare all 27 MIDI music tracks'
+    Write-Host 'RAD-Wolf - prepare WL1 shareware or WL6 full-version MIDI music'
     Write-Host 'Your game files and SoundFont are preserved. Files are not copied to an SD card automatically.'
     if ([string]::IsNullOrWhiteSpace($GameDirectory)) {
         foreach ($candidate in @($PSScriptRoot, (Join-Path $PSScriptRoot 'RADWOLF'),
                 (Join-Path $PSScriptRoot 'SD-CONTENTS\RADWOLF'))) {
-            if (Test-Path -LiteralPath (Join-Path $candidate 'AUDIOHED.WL6')) {
+            $editions = @('WL1','WL6')
+            if ($Edition -ne 'Auto') { $editions = @($Edition) }
+            $found = @($editions | Where-Object {
+                (Test-Path -LiteralPath (Join-Path $candidate ('AUDIOHED.' + $_))) -or
+                (Test-Path -LiteralPath (Join-Path $candidate ('AUDIOT.' + $_)))
+            })
+            if ($found.Count) {
                 $GameDirectory = $candidate
                 break
             }
         }
         if ([string]::IsNullOrWhiteSpace($GameDirectory)) {
-            throw 'Place all 8 WL6 files next to this BAT or in SD-CONTENTS\RADWOLF, then run it again.'
+            throw 'Place all 8 WL6 or WL1 files next to this BAT or in SD-CONTENTS\RADWOLF, then run it again.'
         }
     }
     $game = (Resolve-Path -LiteralPath $GameDirectory).ProviderPath
-    if (-not (Test-Path -LiteralPath $game -PathType Container)) { throw 'Select a folder containing WL6 game data.' }
+    if (-not (Test-Path -LiteralPath $game -PathType Container)) { throw 'Select a folder containing WL1 or WL6 game data.' }
     Write-Host ('Game data: ' + $game)
+    if ($Edition -eq 'Auto') {
+        $detected = @(@('WL1','WL6') | Where-Object {
+            (Test-Path -LiteralPath (Join-Path $game ('AUDIOHED.' + $_))) -or
+            (Test-Path -LiteralPath (Join-Path $game ('AUDIOT.' + $_)))
+        })
+        if ($detected.Count -ne 1) {
+            throw 'Supply one WL1 or WL6 audio set. If both are present, run Prepare-MIDI.ps1 with -Edition WL1 or -Edition WL6.'
+        }
+        $Edition = $detected[0]
+    }
+    $Edition = $Edition.ToUpperInvariant()
+    $required = @($bases | ForEach-Object { $_ + '.' + $Edition })
     $missing = @($required | Where-Object {
         $path = Join-Path $game $_
         -not (Test-Path -LiteralPath $path -PathType Leaf) -or (Get-Item -LiteralPath $path).Length -eq 0
     })
     if ($missing.Count) { throw ('Missing or empty file(s): ' + ($missing -join ', ')) }
-    $headerPath = Join-Path $game 'AUDIOHED.WL6'
-    $audioPath = Join-Path $game 'AUDIOT.WL6'
+    $headerPath = Join-Path $game ('AUDIOHED.' + $Edition)
+    $audioPath = Join-Path $game ('AUDIOT.' + $Edition)
     if ((Get-Item -LiteralPath $headerPath).Length -gt 1048576 -or
         (Get-Item -LiteralPath $audioPath).Length -gt 33554432) { throw 'Unexpected audio data size.' }
     $header = [IO.File]::ReadAllBytes($headerPath)
     $audio = [IO.File]::ReadAllBytes($audioPath)
-    if ($header.Length % 4 -ne 0 -or $header.Length -lt 112) { throw 'Invalid AUDIOHED.WL6.' }
+    if ($header.Length % 4 -ne 0 -or $header.Length -lt 112) { throw ('Invalid AUDIOHED.' + $Edition + '.') }
     $offsets = [uint32[]]::new($header.Length / 4)
     for ($i = 0; $i -lt $offsets.Length; $i++) { $offsets[$i] = [BitConverter]::ToUInt32($header,$i*4) }
     $chunks = New-Object System.Collections.Generic.List[byte[]]
+    $available = @()
     for ($i = 0; $i -lt $names.Count; $i++) {
         $start = [int64]$offsets[$offsets.Length-28+$i]
         $end = [int64]$offsets[$offsets.Length-27+$i]
@@ -111,18 +132,29 @@ try {
             throw ('Invalid music chunk boundaries: ' + $names[$i])
         }
         $size = [BitConverter]::ToUInt16($audio,[int]$start)
+        if ($Edition -eq 'WL1' -and $names[$i] -notin $sharewareNames) {
+            $emptyName = $names[$i] + [char]0
+            if ($size -ne 0 -or $end-$start -ne 88 -or
+                [Text.Encoding]::ASCII.GetString($audio,[int]($start+2),$emptyName.Length) -cne $emptyName) {
+                throw ('Invalid WL1 empty music slot: ' + $names[$i])
+            }
+            continue
+        }
         if ($size -eq 0 -or $size % 4 -ne 0 -or $size + 2 -gt $end-$start) {
             throw ('Invalid IMF music data: ' + $names[$i])
         }
         $metadata = [Text.Encoding]::ASCII.GetString($audio,[int]($start+$size+2),[int]($end-$start-$size-2))
         if (-not $metadata.Contains($names[$i] + [char]0)) {
-            throw ('Unsupported WL6 edition or damaged music: ' + $names[$i] +
-                '. This package supports the full Carmackized WL6 edition.')
+            throw ('Unsupported ' + $Edition + ' edition or damaged music: ' + $names[$i] +
+                '. Supported layouts: Carmackized v1.4 WL1 and WL6.')
         }
         $chunk = [byte[]]::new($size+2)
         [Array]::Copy($audio,$start,$chunk,0,$chunk.Length)
         $chunks.Add($chunk)
+        $available += $names[$i]
     }
+    $names = $available
+    Write-Host ('Edition: {0}; {1} music tracks' -f $Edition,$names.Count)
     $tools = Join-Path $PSScriptRoot 'tools'
     $converter = Join-Path $tools 'dro2midi.exe'
     foreach ($name in @('dro2midi.exe','inst.txt','drum.txt','patch.txt')) {
@@ -131,7 +163,7 @@ try {
         }
     }
     $inputHashes = @{}
-    foreach ($name in @('AUDIOHED.WL6','AUDIOT.WL6')) { $inputHashes[$name] = File-Hash (Join-Path $game $name) }
+    foreach ($name in @("AUDIOHED.$Edition","AUDIOT.$Edition")) { $inputHashes[$name] = File-Hash (Join-Path $game $name) }
     $toolHashes = @{}
     foreach ($name in @('dro2midi.exe','inst.txt','drum.txt','patch.txt')) { $toolHashes[$name] = File-Hash (Join-Path $tools $name) }
     $target = Direct-Child $game (Join-Path $game 'MIDI')
@@ -140,8 +172,9 @@ try {
     if (Test-Path -LiteralPath $infoPath -PathType Leaf) {
         try {
             $info = Get-Content -LiteralPath $infoPath -Raw -Encoding UTF8 | ConvertFrom-Json
-            $current = $info.format -eq 1 -and @($info.tracks).Count -eq 27 -and
-                @($info.tracks.name | Sort-Object -Unique).Count -eq 27
+            $current = $info.format -eq 2 -and $info.edition -eq $Edition -and
+                @($info.tracks).Count -eq $names.Count -and
+                @($info.tracks.name | Sort-Object -Unique).Count -eq $names.Count
             foreach ($name in $inputHashes.Keys) { $current = $current -and $info.inputs.$name -eq $inputHashes[$name] }
             foreach ($name in $toolHashes.Keys) { $current = $current -and $info.tools.$name -eq $toolHashes[$name] }
             foreach ($record in $info.tracks) {
@@ -169,7 +202,7 @@ try {
     $records = @()
     for ($i = 0; $i -lt $names.Count; $i++) {
         $name = $names[$i]
-        Write-Host ('[{0}/27] {1}' -f ($i+1),$name)
+        Write-Host ('[{0}/{1}] {2}' -f ($i+1),$names.Count,$name)
         [IO.File]::WriteAllBytes((Join-Path $work ($name+'.WLF')),$chunks[$i])
         $options = '-k 49 -i'
         if ($loops.ContainsKey($name)) {
@@ -198,7 +231,7 @@ try {
         Copy-Item -LiteralPath $midi -Destination $staging
         $records += @{name=$name; sha256=(File-Hash $midi); options=$options}
     }
-    $manifest = @{format=1; converter='wolfmidi 2cf4c684d45de2a5f0d1b34fd6b9e64beb0c8e79';
+    $manifest = @{format=2; edition=$Edition; converter='wolfmidi 2cf4c684d45de2a5f0d1b34fd6b9e64beb0c8e79';
         inputs=$inputHashes; tools=$toolHashes; tracks=$records}
     $manifest | ConvertTo-Json -Depth 6 | Set-Content -LiteralPath (Join-Path $staging 'MIDI-INFO.json') -Encoding UTF8
     if (Test-Path -LiteralPath $target) {
@@ -212,7 +245,7 @@ try {
         if ($backup -and -not (Test-Path -LiteralPath $target)) { Move-Item -LiteralPath $backup -Destination $target }
         throw
     }
-    Write-Host ('READY: all 27 music tracks are in ' + $target)
+    Write-Host ('READY: all {0} {1} music tracks are in {2}' -f $names.Count,$Edition,$target)
     if ($backup) { Write-Host ('Previous MIDI folder preserved at: ' + $backup) }
     Write-Host 'Copy MIDI to RADWOLF\MIDI on your SD card. An optional SF2 belongs at RADWOLF\soundfont.sf2.'
     Write-Host 'Without a SoundFont the game uses original OPL music. Reboot after replacing an SF2.'

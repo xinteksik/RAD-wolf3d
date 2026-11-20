@@ -1,8 +1,8 @@
 {
   "project": "RAD-Wolf",
-  "snapshot_date": "2026-11-15",
+  "snapshot_date": "2026-11-20",
   "distribution": "source-only",
-  "hardware_baseline_sha256": "4104fa8d9d6d0d58c40a37ef3700a9265efd7d1b1e063efa113f83949eb8db02",
+  "hardware_baseline_sha256": "5fa6c721a855c1b9f023887c5de26cf5f371f9ba2d425bbcd2a340e82c718a1c",
   "game_data_included": false,
   "kernel_binaries_included": false,
   "supported_audio_requires_real_sid": true,
@@ -15,14 +15,17 @@
     "sid1_type": "AUTO",
     "sid2_type": "AUTO"
   },
-  "version": "0.3.4-rc1",
+  "version": "0.3.5-rc1",
   "prerelease": true,
-  "midi_music_tracks": 27,
+  "midi_music_tracks": {
+    "WL1": 11,
+    "WL6": 27
+  },
   "windows_midi_preparation": true,
   "f1_level_map": true,
   "latest_candidate_hardware_test": "maintainer-confirmed",
-  "latest_candidate_sha256": "ce00a903b8aa9698e123c2df496aa033b8c76da05de8d152a664857a91994222",
-  "latest_candidate_bytes": 799864,
+  "latest_candidate_sha256": "5fa6c721a855c1b9f023887c5de26cf5f371f9ba2d425bbcd2a340e82c718a1c",
+  "latest_candidate_bytes": 1022280,
   "solid_floor_ceiling_only": true,
   "map_player_marker": "3x3 map dots, eight red and one white perimeter dot, no halo",
   "video_defaults": {
@@ -33,8 +36,8 @@
   },
   "preconversion_capture_key": "P",
   "maintainer_confirmation": {
-    "date": "2026-11-14",
-    "scope": "deployed kernel accepted; map traversal/save-load and legacy save fallback reported, followed by key/lock annotations and halo removal acceptance; no exhaustive stability or hardware matrix claimed"
+    "date": "2026-11-20",
+    "scope": "maintainer reports working gameplay and MIDI with WL1 and then WL6; exact hardware configuration not restated; no full-game, long-duration or exhaustive hardware validation claimed"
   },
   "map_visited_floor": true,
   "map_visitation_saved": true,
@@ -52,5 +55,14 @@
     "delete": "INST/DEL",
     "confirm": "RETURN",
     "cancel": "C64 left-arrow"
-  }
+  },
+  "game_editions": [
+    "Wolfenstein 3D shareware v1.4 WL1",
+    "Wolfenstein 3D full v1.4 GT/ID/Activision WL6"
+  ],
+  "automatic_game_edition_selection": true,
+  "game_edition_priority": [
+    "WL6",
+    "WL1"
+  ]
 }

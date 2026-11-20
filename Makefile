@@ -57,7 +57,11 @@ build/wolf_map_host.o: src/radwolf_wolf_map.c
 build/test_map_save_engine: tests/test_map_save_engine.c src/radwolf_map.c src/radwolf_map_history.c build/wl_main_map_host.o build/wolf_map_host.o
 	mkdir -p build
 	$(CC) -std=gnu99 -O2 -Wall -Wextra -Werror -Wno-unused-parameter -DRADWOLF_BAREMETAL -Isrc/baremetal -Isrc -Iupstream/Wolf4SDL $^ -Wl,--gc-sections -o $@
-test: build/test_map_save_engine build/test_menu_keyboard build/test_bridge build/test_audio build/test_audio_config build/test_downsample
+build/test_game_edition: src/radwolf_game_edition.c tests/test_game_edition.c src/radwolf_game_edition.h
+	mkdir -p build
+	$(CC) $(CFLAGS) $(INCLUDES) src/radwolf_game_edition.c tests/test_game_edition.c -o $@
+test: build/test_game_edition build/test_map_save_engine build/test_menu_keyboard build/test_bridge build/test_audio build/test_audio_config build/test_downsample
+	./build/test_game_edition
 	./build/test_map_save_engine
 	./build/test_menu_keyboard
 	./build/test_bridge

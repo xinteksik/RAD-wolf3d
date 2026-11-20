@@ -1,0 +1,54 @@
+{
+  "provenance": "Wolfenstein 3D shareware 1.4, wolf3d14.zip from https://maniacsvault.net/ecwolf/files/shareware/wolf3d14.zip. Measured local files; no game data included.",
+  "archive_sha256": "23efc1839b9bd91de43fbd036e55aca94271293dd46d176dafd40378b2f94108",
+  "files": [
+    {
+      "file": "AUDIOHED.WL1",
+      "bytes": 1156,
+      "md5": "58aa1b9892d5adfa725fab343d9446f8",
+      "sha256": "39351624ae6f8eef4b873e060c1a6f3e5ee7e81c4939c485275a89b145336338"
+    },
+    {
+      "file": "AUDIOT.WL1",
+      "bytes": 132613,
+      "md5": "4b6109e957b584e4ad7f376961f3887e",
+      "sha256": "1e2c9ae30398a14c61a4ddd39aabaa0dbcc984cc4924a3e51df75574c259cfb9"
+    },
+    {
+      "file": "GAMEMAPS.WL1",
+      "bytes": 27425,
+      "md5": "30fecd7cce6bc70402651ec922d2da3d",
+      "sha256": "a6a6654b342f2c027bcb22bfce0a41f9fc0063b775e9e4da0c771970e53e11aa"
+    },
+    {
+      "file": "MAPHEAD.WL1",
+      "bytes": 402,
+      "md5": "7b6dd4e55c33c33a41d1600be5df3228",
+      "sha256": "3458f661c9b875bca99ea22a7267771fad8f2a33c699ea732cf7c3322909bf8c"
+    },
+    {
+      "file": "VGADICT.WL1",
+      "bytes": 1024,
+      "md5": "76a6128f3c0dd9b77939ce8313992746",
+      "sha256": "59878fec65f033b00dbb1240317d1793f5858213dc8013b4d68f9ac8b45b0c80"
+    },
+    {
+      "file": "VGAGRAPH.WL1",
+      "bytes": 326568,
+      "md5": "74decb641b1a4faed173e10ab744bff0",
+      "sha256": "d5176f843c53415132db199c19f38591eaf3cedd35a4f7eb2698c1865d83030d"
+    },
+    {
+      "file": "VGAHEAD.WL1",
+      "bytes": 471,
+      "md5": "61bf1616e78367853c91f2c04e2c1cb7",
+      "sha256": "f4cc800dc8444373092d4eaa5d6ab59d63d23a510a9d38b73ca9b3dbb700d18b"
+    },
+    {
+      "file": "VSWAP.WL1",
+      "bytes": 742912,
+      "md5": "6efa079414b817c97db779cecfb081c9",
+      "sha256": "698f217257e2cbb951a4d110ba09140291f38d0121b3784d1d6be59c03a6b47b"
+    }
+  ]
+}

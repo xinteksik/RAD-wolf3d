@@ -3,6 +3,12 @@
 The `v0.3.1-rc1` package provides a new MIDI-capable kernel plus an
 independent Windows converter. Unzip the entire package before running it.
 
+The current converter source supports Carmackized v1.4 full `.WL6` (27 songs)
+and shareware `.WL1` (11 songs). Rebuild the host kit to obtain this change;
+previously generated release ZIPs are unchanged. This adds conversion support
+only. Shareware gameplay also requires a new combined-engine kernel or a
+WL1-specific kernel; earlier WL6-only release kernels cannot run WL1.
+
 ## Prepare your card
 
 1. Back up the working SD card. The SD ZIP includes the same compatible Pi
@@ -11,13 +17,14 @@ independent Windows converter. Unzip the entire package before running it.
    `kernel_wolf.img` must be directly in that root. The default selection is
    `kernel=kernel_wolf.img`. When updating an existing card, preserve your
    working clock/GPIO/PAL settings, AUDIO.CFG, game configuration and saves.
-3. Put your eight full-version WL6 files into `RADWOLF/` beside
+3. Put your eight full-version WL6 or shareware 1.4 WL1 files into `RADWOLF/` beside
    `Prepare-MIDI.bat`. You can also test preparation in the extracted package
    on the PC before copying to a card. Files placed beside the BAT are found
    automatically; dragging a game-data directory onto it is supported too.
 4. Double-click `Prepare-MIDI.bat` in Windows. It runs built-in Windows
    PowerShell and the supplied converter, validates all required files and
-   27 named audio chunks, and creates `MIDI/` in the game-data directory.
+   27 named audio slots, and creates `MIDI/` in the game-data directory.
+   WL6 produces 27 tracks; WL1 produces 11 and skips 16 validated empty slots.
    No Python, compiler, admin account or Internet access is required.
 5. Optionally supply a General MIDI bank as `RADWOLF/soundfont.sf2`. Boot the
    C64/RAD and enable Music/AdLib in Sound. Without a font the game uses OPL.
@@ -25,7 +32,20 @@ independent Windows converter. Unzip the entire package before running it.
 The BAT runs on Windows, including directly on a card inserted into the PC.
 It does not run on C64/RAD. The firmware does not generate MIDI at boot.
 Changing SoundFonts does not require another music conversion; reboot to load
-the new font. All 27 converted songs use the same selected bank.
+the new font. All converted songs use the same selected bank.
+
+Keep one edition per data folder. Mixed audio sets fail automatic detection;
+select one explicitly with PowerShell if needed:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File .\Prepare-MIDI.ps1 -GameDirectory 'D:\Games\Wolf' -Edition WL1
+```
+
+Use `-Edition WL6` for the full edition. The Python helpers
+`tools/convert_all_midi.py` and `tools/convert_menu_midi.py` also detect WL1/WL6;
+their optional selector is `--edition WL1` or `--edition WL6`.
+Use a separate output directory per edition with the Python all-song helper;
+it refuses a directory containing MIDI names absent from the selected edition.
 
 During gameplay, F1 opens a paused full-level overview with walls, doors and
 your position/direction. Music continues. F1 or the C64 left-arrow key closes
@@ -35,14 +55,14 @@ enabled by this feature. Hardware map/input testing is pending for this build.
 
 ## Safety and repeat runs
 
-The tool checks all eight files exist and are nonempty, validates the WL6 audio
+The tool checks all eight files exist and are nonempty, validates the selected audio
 header/chunk bounds and expected song names, and verifies each converted MIDI
-track structure. It supports the tested full Carmackized WL6 layout; it is
+track structure. It supports Carmackized v1.4 WL6 and WL1 layouts; it is
 not a universal detector for every Wolf/Spear/mod edition or proof of purchase.
 
-Original WL6, saves, audio config and fonts are untouched. Matching generated
+Original WL6/WL1, saves, audio config and fonts are untouched. Matching generated
 MIDI is reused based on input/tool/output hashes. A damaged or stale set is
-replaced only after all 27 conversions succeed; the old directory remains in
+replaced only after all conversions succeed; the old directory remains in
 `MIDI-backup-<date>-<id>`. Failed conversions leave existing MIDI unchanged.
 `MIDI-conversion.log` contains the conversion details.
 

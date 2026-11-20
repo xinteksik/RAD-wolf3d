@@ -8,9 +8,16 @@ official id Software, GOG or RAD release.
 **A real SID is required for supported audio. Ultimate/UltiSID audio is
 experimental and may sound distorted or otherwise incorrect.**
 
-Current release: **v0.3.4-rc1** - menu keyboard fixes and a persistent F1 map
-with player direction, elevator, keys and missing-key door colors. See
-[release notes](docs/RELEASE-v0.3.4-rc1.md) and [map guide](docs/MAP.md).
+Current release: **v0.3.5-rc1** - automatic WL1/WL6 startup and MIDI preparation
+for shareware and full-version data. The persistent F1 map and menu keyboard
+fixes from v0.3.4-rc1 are retained. See
+[release notes](docs/RELEASE-v0.3.5-rc1.md) and [map guide](docs/MAP.md).
+
+The v0.3.5-rc1 kernel selects between shareware v1.4 WL1 and full v1.4
+GT/ID/Activision WL6 automatically. Both engines have passed host startup and
+first-map tests; the maintainer also reports working gameplay and MIDI on
+hardware with both editions. Full-game completion and long stability remain unverified.
+Older release ZIPs are unchanged. See [data support](docs/GAME_DATA.md).
 
 ## Rendering evolution
 
@@ -65,7 +72,8 @@ PAL is the supported inherited video configuration; NTSC is not verified.
   models but this project does not claim a full hardware matrix.
 - A real 6581 or 8580; a second independently addressed SID for stereo.
 - A FAT32 SD card with the required Pi boot files and RAD prefetch stub.
-- Your own legally obtained **Wolfenstein 3D full-version WL6 data**.
+- Your own legally obtained **Wolfenstein 3D full-version WL6 data**, or
+  **shareware v1.4 WL1 data** with the v0.3.5-rc1 combined kernel.
   [GOG sells the game](https://www.gog.com/en/game/wolfenstein_3d).
 
 **Game data is not included and is not covered by this source license.**
@@ -79,8 +87,9 @@ Different retail/GOG revisions may differ; no game files are downloaded by our t
 
 The MIDI test release includes `Prepare-MIDI.bat`, its readable PowerShell
 script, and a standalone converter in `RADWOLF/` on the SD card. Copy your WL6
-files into that folder and double-click the BAT on Windows. It creates all
-27 tracks in `MIDI/`; no Python, compiler or Internet connection is required.
+or shareware v1.4 WL1 files into that folder and double-click the BAT on Windows.
+It creates 27 WL6 or 11 WL1 tracks in `MIDI/`; no Python, compiler or Internet
+connection is required. Keep one edition per folder for automatic conversion.
 It can run directly from an SD card inserted into Windows. The game uses
 these tracks when `RADWOLF/soundfont.sf2` is present; without the font it uses
 original OPL music. See [Windows kit instructions](docs/WINDOWS-MIDI.md).

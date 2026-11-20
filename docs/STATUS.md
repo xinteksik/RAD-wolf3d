@@ -1,5 +1,26 @@
 # Validation status
 
+## Combined WL1/WL6 startup - maintainer hardware confirmation, 2026-11-20
+
+New local builds contain isolated shareware v1.4 WL1 and full
+GT/ID/Activision v1.4 WL6 engines with automatic startup selection. Complete
+compatible WL6 data has priority; otherwise a compatible complete WL1 set is
+used. Existing configuration/save extensions remain edition-specific.
+
+Both actual engine variants passed host tests with separately supplied real
+data: startup to menu, keyboard routing, E1M1 loading and frame rendering.
+Portable tests cover missing/incomplete data, incompatible header sizes and
+selection priority. Shared-to-engine symbol imports are audited during linking.
+The MIDI converter passed actual Windows conversion tests for both editions.
+The maintainer subsequently reported that the game and MIDI work with WL1
+and then with WL6 on hardware. This confirms basic operation for both editions
+for the supplied combined kernel, SHA-256:
+`5fa6c721a855c1b9f023887c5de26cf5f371f9ba2d425bbcd2a340e82c718a1c`.
+This is a maintainer report, not an independently observed or exhaustive test.
+The precise hardware configuration was not restated for this test. Full-game
+completion, all levels and long-duration stability remain unverified.
+Previously generated release ZIPs still contain their original kernels.
+
 ## v0.3.4-rc1 - release preparation, 2026-11-15
 
 Packages preserve the maintainer-accepted kernel `ce00a903b8aa9698e123c2df496aa033b8c76da05de8d152a664857a91994222`.

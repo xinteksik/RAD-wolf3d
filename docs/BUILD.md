@@ -41,14 +41,33 @@ The final kernel is `build/kernel_wolf.img`. The portable link makefile is
 with `STDLIB_ROOT=/path/to/circle-stdlib`. A compiler/library change is a new
 build candidate, not a verified hardware equivalent.
 
+The build compiles separate WL6 and WL1 engine cores with explicit version
+defines, isolates WL1 engine symbols using `tools/combine_wolf_cores.py`, and
+links shared RAD/audio/video/file adapters once. Startup selects a compatible
+complete data set in `RADWOLF/`, preferring WL6. Shared-to-engine callbacks
+are audited at build time. Neither upstream `version.h` nor DMA/PAL settings
+need to be changed to switch editions.
+
 ## Validation
 
 ```sh
 make test
 make test-opl test-audio-startup
 python3 tools/verify_game_data.py /path/to/your/WL6/files
+python3 tools/verify_game_data.py /path/to/your/WL1/files --edition WL1
 python3 tools/audit_release.py
 ```
+
+An optional Linux test runs the actual dual bare-metal engines with hardware
+stubs and separately supplied data. It checks menus, routed keyboard input,
+E1M1 loading and rendering for each edition. Use a new output directory:
+
+```sh
+bash tools/test_dual_game.sh /path/to/WL1 /path/to/WL6 build/dual-host-smoke
+```
+
+It copies game data into isolated test directories and writes private captures;
+do not publish those directories. It does not test physical hardware.
 
 Host tests do not establish VIC-II timing, physical SID quality or SD boot.
 This cleaned build removes the intro and external media dependencies; its

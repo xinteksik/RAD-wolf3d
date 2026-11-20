@@ -10,6 +10,28 @@ spec = importlib.util.spec_from_file_location('prepare_sources', script)
 module = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(module)
 
+verify_spec = importlib.util.spec_from_file_location(
+    'verify_game_data', script.with_name('verify_game_data.py'))
+verify = importlib.util.module_from_spec(verify_spec)
+verify_spec.loader.exec_module(verify)
+
+
+class TestGameDataSelection(unittest.TestCase):
+    def test_selects_complete_editions_and_ignores_old_saves(self):
+        names = {f'{base}.WL1' for base in verify.BASES}
+        names.update(('CONFIG.WL6', 'SAVEGAM0.WL6'))
+        self.assertEqual(verify.select_edition(names, 'auto'), 'WL1')
+        names.update(f'{base}.WL6' for base in verify.BASES)
+        self.assertEqual(verify.select_edition(names, 'auto'), 'WL6')
+        self.assertEqual(verify.select_edition(names, 'WL1'), 'WL1')
+        names.remove('AUDIOT.WL6')
+        self.assertEqual(verify.select_edition(names, 'auto'), 'WL1')
+
+    def test_incomplete_set_keeps_its_extension_for_missing_file_report(self):
+        self.assertEqual(verify.select_edition({'AUDIOHED.WL1'}, 'auto'), 'WL1')
+        self.assertEqual(verify.select_edition({'AUDIOHED.WL6'}, 'auto'), 'WL6')
+        self.assertEqual(verify.select_edition(set(), 'auto'), 'WL6')
+
 
 class TestSourceInstaller(unittest.TestCase):
     def test_install_repeat_and_refuse_local_edits(self):

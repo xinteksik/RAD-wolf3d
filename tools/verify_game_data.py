@@ -5,14 +5,34 @@ import hashlib
 import json
 from pathlib import Path
 
+BASES = ('AUDIOHED', 'AUDIOT', 'GAMEMAPS', 'MAPHEAD', 'VGADICT', 'VGAGRAPH',
+         'VGAHEAD', 'VSWAP')
+
+
+def select_edition(files, requested):
+    if requested != 'auto':
+        return requested
+    for edition in ('WL6', 'WL1'):
+        if all(f'{base}.{edition}' in files for base in BASES):
+            return edition
+    for edition in ('WL6', 'WL1'):
+        if any(f'{base}.{edition}' in files for base in BASES):
+            return edition
+    return 'WL6'
+
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('directory', type=Path)
+    parser.add_argument('--edition', choices=('auto', 'WL1', 'WL6'), default='auto')
     args = parser.parse_args()
     manifest = Path(__file__).resolve().parents[1] / 'docs/game-data-hashes.json'
-    records = json.loads(manifest.read_text())['files']
     files = {p.name.upper(): p for p in args.directory.iterdir() if p.is_file()}
+    edition = select_edition(files, args.edition)
+    if edition == 'WL1':
+        manifest = manifest.with_name('game-data-shareware-hashes.json')
+    records = json.loads(manifest.read_text())['files']
+    print(f'Verifying {edition} reference data')
     failed = False
     for record in records:
         path = files.get(record['file'])

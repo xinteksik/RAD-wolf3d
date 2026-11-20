@@ -3,7 +3,7 @@ REPO ?= $(abspath ../..)
 STDLIB_ROOT ?= $(REPO)/upstream/circle-stdlib
 RAD := $(REPO)/upstream/RAD-Doom/Source
 RW := $(REPO)/src
-CORE := $(REPO)/build/wolf-core-arm64
+CORE := $(REPO)/build/wolf-core-dual-arm64
 CIRCLEHOME := $(STDLIB_ROOT)/libs/circle
 NEWLIBDIR := $(STDLIB_ROOT)/install/aarch64-none-circle
 include $(STDLIB_ROOT)/Config.mk

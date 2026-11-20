@@ -12,6 +12,8 @@ __pycache__/
 *.lst
 *.wl6
 *.WL6
+*.wl1
+*.WL1
 *.wad
 *.WAD
 *.sf2

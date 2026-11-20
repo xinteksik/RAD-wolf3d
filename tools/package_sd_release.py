@@ -73,16 +73,28 @@ def main():
     (sd / 'RELEASE.json').write_text(json.dumps(dict(version=version,
         kernel_sha256=digest(kernel), kernel_bytes=len(kernel), game_data_included=False,
         default_audio='mono AUTO', source_asset=source_asset,
-        hardware_boot_of_this_binary=hardware_state, midi_tracks=27,
+        hardware_boot_of_this_binary=hardware_state,
+        game_editions=metadata.get('game_editions', []),
+        game_edition_priority=metadata.get('game_edition_priority', []),
+        midi_tracks=metadata.get('midi_music_tracks', 27),
         windows_preparation='RADWOLF/Prepare-MIDI.bat', level_map='F1'), indent=2) + '\n')
     (game / 'AUDIO.STEREO.CFG.example').write_text(
         '# Real 8580 at D400 and real 6581 at D500; adjust to your hardware.\n'
         'STEREO=ON\nSID1_ADDRESS=$D400\nSID1_TYPE=8580\n'
         'SID2_ADDRESS=$D500\nSID2_TYPE=6581\nSTEREO_WIDTH=100\nMIDI_STEREO_WIDTH=70\n')
-    (game / 'ADD-YOUR-WL6-FILES-HERE.txt').write_text(
-        'Add your own legally obtained full Carmackized WL6 files here:\n'
+    old_hint = game / 'ADD-YOUR-WL6-FILES-HERE.txt'
+    if old_hint.exists():
+        old_hint.unlink()
+    (game / 'ADD-YOUR-GAME-FILES-HERE.txt').write_text(
+        'Add eight legally obtained Wolfenstein 3D game files here.\n'
+        'Supported: shareware v1.4 WL1 or full v1.4 GT/ID/Activision WL6.\n'
+        'The full-version filenames are:\n'
         'AUDIOHED.WL6\nAUDIOT.WL6\nGAMEMAPS.WL6\nMAPHEAD.WL6\n'
         'VGADICT.WL6\nVGAGRAPH.WL6\nVGAHEAD.WL6\nVSWAP.WL6\n\n'
+        'For shareware use the same eight names with .WL1 extensions.\n'
+        'Game startup prefers a complete compatible WL6 set, otherwise WL1.\n'
+        'Keep one edition here for automatic MIDI conversion; mixed audio sets\n'
+        'require explicit -Edition WL1 or -Edition WL6 in Prepare-MIDI.ps1.\n\n'
         'For MIDI music, run Prepare-MIDI.bat here in Windows to create MIDI/,\n'
         'then optionally add your General MIDI bank as soundfont.sf2.\n'
         'Without a bank the game uses original OPL music. No game files are included.\n'
@@ -99,9 +111,11 @@ def main():
         'RAD-Wolf ' + version + ' - READY-TO-COPY SD PACKAGE\n\n'
         '1. Back up the card. Extract the CONTENTS of this SD ZIP to its FAT32 root.\n'
         '   config.txt and kernel_wolf.img belong directly in the root.\n'
-        '2. Add your eight purchased full-version WL6 files to RADWOLF/.\n'
+        '2. Add your eight shareware v1.4 WL1 or full v1.4 GT/ID/Activision WL6\n'
+        '   files to RADWOLF/. The game selects WL6 first if both are complete.\n'
         '3. Optional MIDI: with the card inserted into Windows, double-click\n'
-        '   RADWOLF/Prepare-MIDI.bat. It creates MIDI/ with all 27 tracks.\n'
+        '   RADWOLF/Prepare-MIDI.bat. It creates 11 WL1 or 27 WL6 MIDI tracks.\n'
+        '   Keep one edition per folder for automatic MIDI preparation.\n'
         '   No Python, compiler, admin rights or Internet connection is required.\n'
         '   Add your bank as RADWOLF/soundfont.sf2; without it music stays OPL.\n'
         '4. Boot the C64/RAD. Enable Music/AdLib. Reboot after changing an SF2.\n\n'
@@ -124,7 +138,8 @@ def main():
         'STATUS confines it to the status bar, FULL restores whole-screen flashes.\n'
         'Reboot after editing VIDEO.CFG. P saves a local CAPxxxx.RWF RGB capture.\n\n'
         'UPDATING: preserve your working config.txt, RAD/rad.cfg, AUDIO.CFG,\n'
-        'VIDEO.CFG, CONFIG.WL6 and saves. Keep kernel=kernel_wolf.img in boot config.\n'
+        'VIDEO.CFG, CONFIG.WL1/CONFIG.WL6 and saves. Keep kernel=kernel_wolf.img.\n'
+        'Update the BAT, PS1, converter tools and source from this release too.\n'
         'The supplied default clocks/GPIO/RAD settings are unchanged from rc1.\n'
         + hardware_note + '\n'
         'Project: https://github.com/xinteksik/RAD-wolf3d\n'
@@ -132,8 +147,11 @@ def main():
         'Source asset: ' + source_asset + '\n')
     (sd / 'ZACNI-ZDE.txt').write_text(
         'RAD-Wolf ' + version + '\n\n'
-        'Obsah SD ZIPu rozbal do korene zalohovane FAT32 karty. Vlastni WL6 dej\n'
-        'do RADWOLF. Ve Windows spust RADWOLF/Prepare-MIDI.bat; vytvori MIDI.\n'
+        'Obsah SD ZIPu rozbal do korene zalohovane FAT32 karty. Osm vlastnich\n'
+        'souboru WL1 shareware 1.4 nebo WL6 GT/ID/Activision dej do RADWOLF.\n'
+        'Hra automaticky zvoli kompletni WL6, jinak WL1. Pro WL1 presun WL6 jinam.\n'
+        'Ve Windows spust RADWOLF/Prepare-MIDI.bat; vytvori 11 nebo 27 MIDI.\n'
+        'Pro automaticky prevod ponech ve slozce jednu edici.\n'
         'Volitelny SF2 uloz jako RADWOLF/soundfont.sf2. Bez nej hraje OPL.\n'
         'F1 ve hre otevre mapu, F1 nebo leva sipka ji zavre.\n'
         'Zelena cesta se uklada se hrou. Modra znaci vytah. Klice jsou zlute/bile;\n'
@@ -214,9 +232,12 @@ def main():
     notes = (ROOT / ('docs/RELEASE-' + version + '.md')).read_text()
     quick = ('# RAD-Wolf ' + version + '\n\n'
         '1. Extract **' + label + '-SD.zip** to the FAT32 SD card root.\n'
-        '2. Add your eight WL6 files to `RADWOLF/`.\n'
+        '2. Add eight shareware v1.4 WL1 or full GT/ID/Activision v1.4 WL6 files '
+        'to `RADWOLF/`; complete WL6 takes priority when both are present.\n'
         '3. For MIDI, run `RADWOLF/Prepare-MIDI.bat` in Windows and add your bank '
-        'as `RADWOLF/soundfont.sf2`. Without a bank, music uses OPL.\n'
+        'as `RADWOLF/soundfont.sf2`. It prepares 11 WL1 or 27 WL6 songs. '
+        'Keep one edition per folder for automatic conversion. '
+        'Without a bank, music uses OPL.\n'
         '4. Boot C64/RAD. F1 opens the level map; F1/left-arrow closes it.\n\n'
         'Kernel name: `kernel_wolf.img`, same as the first release.\n'
         'Default: mono AUTO. Preserve custom settings and saves when updating.\n'
